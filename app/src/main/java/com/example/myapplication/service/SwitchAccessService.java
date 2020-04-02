@@ -8,6 +8,11 @@ import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import androidx.annotation.Nullable;
+
+import com.example.myapplication.UiChangeDetector;
+import com.example.myapplication.utils.UiChangeStabilizer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,15 @@ public class SwitchAccessService extends AccessibilityService {
 
     List<AccessibilityNodeInfo> childNodeInfo = new ArrayList<>();
 
+
+    @Nullable
+    private static SwitchAccessService instance;
+    private UiChangeDetector eventProcessor;
+    private UiChangeStabilizer uiChangeStabilizer;
+
+    public static SwitchAccessService getInstance() {
+        return instance;
+    }
 
     @Override
     public void onCreate() {
@@ -76,8 +90,12 @@ public class SwitchAccessService extends AccessibilityService {
 
 //        endregion
 
+        uiChangeStabilizer = new UiChangeStabilizer();
+        eventProcessor = new UiChangeDetector(uiChangeStabilizer);
+
+        instance = this;
+
         Log.i(LOG_TAG, "onServiceConnected.... ");
-//        Toast.makeText(this, "onServiceConnected 2:", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -88,7 +106,11 @@ public class SwitchAccessService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.i(LOG_TAG, "onAccessibilityEvent: " + event);
+//        Log.i(LOG_TAG, "onAccessibilityEvent: " + event);
+
+        if (eventProcessor != null) {
+            eventProcessor.onAccessibilityEvent(event);
+        }
     }
 
     @Override
