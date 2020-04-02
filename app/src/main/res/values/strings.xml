@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MyApplication</string>
+    <string name="btn">btn</string>
+    <string name="btn_1">btn_1</string>
+    <string name="btn_2">btn_2</string>
+    <string name="btn_3">btn_3</string>
+    <string name="btn_4">btn_4</string>
+    <string name="btn_5">btn_5</string>
+    <string name="btn_6">btn_6</string>
+    <string name="btn_7">btn_7</string>
+    <string name="song_title">Song Title</string>
+    <string name="settings">settingsButton</string>
+    <string name="music_menu">Music menu</string>
+    <string name="now_playing">Now playing</string>
+    <string name="home">homeButton</string>
+    <string name="musicButton">musicButton</string>
+    <string name="phoneButton">phoneButton</string>
+    <string name="backButton">backButton</string>
+    <string name="overviewButton">overviewButton</string>
+    <string name="prev">prev</string>
+    <string name="play_pause">play_pause</string>
+    <string name="next">next</string>
+    <string name="more">more</string>
+    <string name="TedRadioHour">Ted Radio Hour</string>
+    <string name="MinTowork">36 Min To Work</string>
+    <string name="accessibility_service_label">Custom Switch Service</string>
+    <string name="accessibility_service_description">Custom service description</string>
+</resources>
