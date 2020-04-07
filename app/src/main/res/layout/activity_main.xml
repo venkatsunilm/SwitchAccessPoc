@@ -17,6 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home"
+            android:layout_marginTop="70dp"
+             android:textAllCaps="false"
+            android:accessibilityTraversalBefore="@id/btn_top"
             app:layout_constraintBottom_toTopOf="@id/btn_music"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/musicButton"
+             android:accessibilityTraversalBefore="@id/btn_phone"
+            android:accessibilityTraversalAfter="@id/btn_home"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@id/btn_phone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_home" />
@@ -35,6 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/phoneButton"
+            android:accessibilityTraversalBefore="@id/btn_back"
+            android:accessibilityTraversalAfter="@id/btn_music"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@id/btn_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_music" />
@@ -44,6 +53,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/backButton"
+            android:accessibilityTraversalBefore="@id/btn_overview"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toTopOf="@id/btn_overview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_phone" />
@@ -53,6 +64,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/overviewButton"
+            android:accessibilityTraversalBefore="@id/btn_top"
+            android:layout_marginBottom="70dp"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btn_back" />
@@ -71,7 +85,9 @@
             android:id="@+id/btn_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityTraversalBefore="@id/btn_top_1"
             android:text="@string/now_playing"
+            android:textAllCaps="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,17 +95,19 @@
             android:id="@+id/btn_top_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityTraversalBefore="@id/btn_previous"
             android:text="@string/music_menu"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_top"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/settings"
+            android:id="@+id/btn_last"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:accessibilityTraversalAfter="@id/btn_more"
             android:text="@string/settings"
+            android:textAllCaps="false"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -130,8 +148,10 @@
             android:id="@+id/btn_previous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityTraversalBefore="@id/btn_play_pause"
             android:background="@drawable/btn_background"
             android:text="@string/prev"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_play_pause"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,8 +161,10 @@
             android:id="@+id/btn_play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityTraversalBefore="@id/btn_next"
             android:background="@drawable/btn_background"
             android:text="@string/play_pause"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_next"
             app:layout_constraintStart_toEndOf="@id/btn_previous"
@@ -152,8 +174,10 @@
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:accessibilityTraversalBefore="@id/btn_more"
             android:background="@drawable/btn_background"
             android:text="@string/next"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_more"
             app:layout_constraintStart_toEndOf="@id/btn_play_pause"
@@ -163,9 +187,9 @@
             android:id="@+id/btn_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:accessibilityTraversalAfter="@id/settings"
-            android:nextFocusRight="@id/settings"
-            android:text="@string/more"
+            android:accessibilityTraversalBefore="@id/btn_last"
+            android:text="More"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_next"
@@ -188,6 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/TedRadioHour"
+            android:textAllCaps="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -195,6 +220,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/MinTowork"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/btn_bottom"
             app:layout_constraintTop_toTopOf="parent" />
