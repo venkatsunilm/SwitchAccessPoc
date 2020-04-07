@@ -10,7 +10,10 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.annotation.Nullable;
 
+import com.example.myapplication.SwitchAccessWindowInfo;
 import com.example.myapplication.UiChangeDetector;
+import com.example.myapplication.nodes.MainTreeBuilder;
+import com.example.myapplication.utils.AccessibilityServiceCompatUtils;
 import com.example.myapplication.utils.UiChangeStabilizer;
 
 import java.util.ArrayList;
@@ -95,19 +98,29 @@ public class SwitchAccessService extends AccessibilityService {
 
         instance = this;
 
+        // get the active window information
         Log.i(LOG_TAG, "onServiceConnected.... ");
     }
 
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
         Log.i(LOG_TAG, "onKeyEvent: " + event);
+
+        Log.i(LOG_TAG, "getActiveWidow: " + AccessibilityServiceCompatUtils.getActiveWidow(this));
+        Log.i(LOG_TAG, "getWindows: " + AccessibilityServiceCompatUtils.getWindows(this));
+        Log.i(LOG_TAG, "getInputFocusedNode: " + AccessibilityServiceCompatUtils.getInputFocusedNode(this));
+        Log.i(LOG_TAG, "getRootInAccessibilityFocusedWindow: " + AccessibilityServiceCompatUtils.getRootInAccessibilityFocusedWindow(this));
+        Log.i(LOG_TAG, "getRootInActiveWindow: " + AccessibilityServiceCompatUtils.getRootInActiveWindow(this));
+//        Log.i(LOG_TAG, "getWindows: " + AccessibilityServiceCompatUtils.isAccessibilityButtonAvailableCompat());
+
+        new MainTreeBuilder(this).addWindowListToTree(
+                SwitchAccessWindowInfo.convertZOrderWindowList(
+                        AccessibilityServiceCompatUtils.getWindows(this)));
         return super.onKeyEvent(event);
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-//        Log.i(LOG_TAG, "onAccessibilityEvent: " + event);
-
         if (eventProcessor != null) {
             eventProcessor.onAccessibilityEvent(event);
         }
