@@ -17,6 +17,7 @@
 package com.example.myapplication.nodes;
 
 import android.accessibilityservice.AccessibilityService;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
@@ -38,6 +39,7 @@ import java.util.List;
 public abstract class TreeBuilder {
 
     final AccessibilityService service;
+    public static ArrayList<AccessibilityNodeInfoCompat> childNodes = new ArrayList<>();
 
     TreeBuilder(AccessibilityService service) {
         this.service = service;
@@ -74,7 +76,7 @@ public abstract class TreeBuilder {
             if ((windowRoot != null) && (windowRoot.getChildCount() == 1)) {
                 AccessibilityNodeInfo firstChild = windowRoot.getChild(0);
 
-                Log.i(GlobalConstants.LOGTAG, "firstChild: " + firstChild);
+//                Log.i(GlobalConstants.LOGTAG, "firstChild: " + firstChild);
 
                 if (firstChild != null) {
                     CharSequence className = firstChild.getClassName();
@@ -88,9 +90,30 @@ public abstract class TreeBuilder {
             windowsAboveFiltered.add(window);
         }
 
-//    // Create our list of nodes.
-//    LinkedList<SwitchAccessNodeCompat> outList = new LinkedList<>();
-//    OrderedTraversalController traversalController = new OrderedTraversalController();
+        int childCount = root.getChildCount();
+        Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat childCount: " + childCount);
+
+        AccessibilityNodeInfoCompat child = null;
+        AccessibilityNodeInfoCompat secondchild = null;
+        for (int i = 0; i < childCount; i++) {
+            try {
+                child = root.getChild(i);
+                childNodes.add(child);
+                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat child: " + i + " :" + child);
+
+                int subChildCount = child.getChildCount();
+                for (int j = 0; j < subChildCount; j++) {
+                    secondchild = child.getChild(j);
+                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
+                }
+//                Rect bounds = getBoundsInternal(child);
+            } catch (Exception e) {
+
+            }
+
+            // Create our list of nodes.
+            LinkedList<SwitchAccessNodeCompat> outList = new LinkedList<>();
+            OrderedTraversalController traversalController = new OrderedTraversalController();
 //    traversalController.initOrder(root, true);
 //    AccessibilityNodeInfoCompat node = traversalController.findFirst();
 //    while (node != null) {
@@ -108,7 +131,30 @@ public abstract class TreeBuilder {
 //    }
 //    traversalController.recycle();
 //    return outList;
+        }
     }
+
+//        private Rect getBoundsInternal (AccessibilityNodeInfoCompat node){
+//            if (node == null) {
+//                return EMPTY_RECT;
+//            }
+//
+//            if (mCalculatingNodes.contains(node)) {
+//                LogUtils.w(TAG, "node tree loop detected while calculating node bounds");
+//                return EMPTY_RECT;
+//            }
+//
+//            Rect bounds = mBoundsMap.get(node);
+//            if (bounds == null) {
+//                mCalculatingNodes.add(node);
+//                bounds = fetchBound(node);
+//                mBoundsMap.put(node, bounds);
+//                mCalculatingNodes.remove(node);
+//            }
+//
+//            return bounds;
+//        }
+
 
 //  /**
 //   * Creates a {@link TreeScanSystemProvidedNode} if the provided {@link SwitchAccessNodeCompat} can

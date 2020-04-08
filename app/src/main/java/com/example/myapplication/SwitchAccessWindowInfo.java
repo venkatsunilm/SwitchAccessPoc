@@ -45,7 +45,7 @@ public class SwitchAccessWindowInfo {
         for (int i = 0; i < originalList.size(); i++) {
             newList.add(new SwitchAccessWindowInfo(originalList.get(i), originalList.subList(0, i)));
         }
-        Log.i(GlobalConstants.LOGTAG, "newList: "+ newList);
+//        Log.i(GlobalConstants.LOGTAG, "newList: "+ newList);
         return newList;
     }
 
