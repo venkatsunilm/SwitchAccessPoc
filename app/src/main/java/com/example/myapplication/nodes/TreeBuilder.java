@@ -17,7 +17,6 @@
 package com.example.myapplication.nodes;
 
 import android.accessibilityservice.AccessibilityService;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
@@ -101,14 +100,55 @@ public abstract class TreeBuilder {
                 childNodes.add(child);
                 Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat child: " + i + " :" + child);
 
+                // TODO: sample button are stored, to use the nodes for navigation test.
+                if (child.getText() != null && child.getText().toString().contains("HOMEBUTTON")) {
+                    Log.i(GlobalConstants.LOGTAG, "secondchild HOMEBUTTON: ");
+                    GlobalConstants.currentNodeCompat_homeButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+
+                if (child.getText() != null && child.getText().toString().contains("MUSICBUTTON")) {
+                    Log.i(GlobalConstants.LOGTAG, "secondchild MUSICBUTTON: ");
+                    GlobalConstants.currentNodeCompat_musicButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+
+                if (child.getText() != null && child.getText().toString().contains("PHONEBUTTON")) {
+                    Log.i(GlobalConstants.LOGTAG, "secondchild PHONEBUTTON: ");
+                    GlobalConstants.currentNodeCompat_phoneButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+
+                if (child.getText() != null && child.getText().toString().contains("PLAY_PAUSE")) {
+                    Log.i(GlobalConstants.LOGTAG, "secondchild PLAY_PAUSE: ");
+                    GlobalConstants.currentNodeCompat_playPauseButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+
+
                 int subChildCount = child.getChildCount();
                 for (int j = 0; j < subChildCount; j++) {
                     secondchild = child.getChild(j);
+
+                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Back")) {
+                        Log.i(GlobalConstants.LOGTAG, "secondchild BACK: ");
+                        GlobalConstants.currentNodeCompat_BackMain = AccessibilityNodeInfoCompat.obtain(secondchild);
+                    }
+
+                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Home")) {
+                        Log.i(GlobalConstants.LOGTAG, "secondchild HOME: ");
+                        GlobalConstants.currentNodeCompat_HomeMain = AccessibilityNodeInfoCompat.obtain(secondchild);
+                    }
+
+                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Overview")) {
+                        Log.i(GlobalConstants.LOGTAG, "secondchild OVERVIEW: ");
+                        GlobalConstants.currentNodeCompat_OverviewMain = AccessibilityNodeInfoCompat.obtain(secondchild);
+                    }
+
+
                     Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
+//                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
+
                 }
 //                Rect bounds = getBoundsInternal(child);
             } catch (Exception e) {
-
+                Log.i(GlobalConstants.LOGTAG, e.toString());
             }
 
             // Create our list of nodes.

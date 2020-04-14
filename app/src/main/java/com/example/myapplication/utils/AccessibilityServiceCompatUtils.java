@@ -134,6 +134,19 @@ public class AccessibilityServiceCompatUtils {
         return null;
     }
 
+    public static AccessibilityNodeInfoCompat getInputAcceeFocusedNode(AccessibilityService service) {
+        // TODO: Shall we use active window or accessibility focused window?
+        AccessibilityNodeInfoCompat activeRoot = getRootInActiveWindow(service);
+        if (activeRoot != null) {
+            try {
+                return activeRoot.findFocus(AccessibilityNodeInfoCompat.FOCUS_ACCESSIBILITY);
+            } finally {
+                activeRoot.recycle();
+            }
+        }
+        return null;
+    }
+
     public static String gestureIdToString(int gestureId) {
         switch (gestureId) {
             case AccessibilityService.GESTURE_SWIPE_DOWN:

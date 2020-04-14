@@ -1,10 +1,21 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
+import android.widget.Button;
+
+import com.example.myapplication.nodes.MainTreeBuilder;
+import com.example.myapplication.utils.AccessibilityServiceCompatUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,14 +25,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+
+//        play_pause_button.requestFocus();
+        return super.onCreateView(name, context, attrs);
+    }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        Log.i("Venk", "Key ACTION: " + event.getKeyCode());
+        Log.i("Venk", "dispatchKeyEvent: " + event);
 
-        if (event.getAction() == KeyEvent.ACTION_DOWN){
-        }
-         else if (event.getAction() == KeyEvent.ACTION_UP){
-
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                break;
+            case KeyEvent.KEYCODE_N:
+                Button play_pause_button = (Button) findViewById(R.id.btn_play_pause);
+                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+                break;
         }
         return super.dispatchKeyEvent(event);
     }

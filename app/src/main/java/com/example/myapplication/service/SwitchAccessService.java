@@ -9,7 +9,9 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
+import com.example.myapplication.GlobalConstants;
 import com.example.myapplication.SwitchAccessWindowInfo;
 import com.example.myapplication.UiChangeDetector;
 import com.example.myapplication.nodes.MainTreeBuilder;
@@ -113,14 +115,46 @@ public class SwitchAccessService extends AccessibilityService {
 //        Log.i(LOG_TAG, "getRootInActiveWindow: " + AccessibilityServiceCompatUtils.getRootInActiveWindow(this));
 //        Log.i(LOG_TAG, "getWindows: " + AccessibilityServiceCompatUtils.isAccessibilityButtonAvailableCompat());
 
-        new MainTreeBuilder(this).addWindowListToTree(
-                SwitchAccessWindowInfo.convertZOrderWindowList(
-                        AccessibilityServiceCompatUtils.getWindows(this)));
+        // KEYCODE_BUTTON_A, KEYCODE_BUTTON_B, KEYCODE_BUTTON_X, KEYCODE_BUTTON_Y,
+        // KEYCODE_BUTTON_L1, KEYCODE_BUTTON_R1, KEYCODE_BUTTON_L2, KEYCODE_BUTTON_R2, KEYCODE_BUTTON_THUMBL, KEYCODE_BUTTON_THUMBR
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                break;
+            case KeyEvent.KEYCODE_DPAD_UP:
+                break;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_A:
+                new MainTreeBuilder(this).addWindowListToTree(
+                        SwitchAccessWindowInfo.convertZOrderWindowList(
+                                AccessibilityServiceCompatUtils.getWindows(this)));
+                break;
+            case KeyEvent.KEYCODE_S:
+                GlobalConstants.currentNodeCompat_playPauseButton.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+                break;
+            case KeyEvent.KEYCODE_D:
+                GlobalConstants.currentNodeCompat_musicButton.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+                break;
+
+            case KeyEvent.KEYCODE_Q:
+                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+                // Log.i(LOG_TAG, "getInputFocusedNode ####: " + AccessibilityServiceCompatUtils.getInputFocusedNode(this));
+                break;
+
+            case KeyEvent.KEYCODE_W:
+                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+                break;
+        }
+
         return super.onKeyEvent(event);
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        Log.i(GlobalConstants.LOGTAG, "onAccessibilityEvent: " + event);
         if (eventProcessor != null) {
             eventProcessor.onAccessibilityEvent(event);
         }
