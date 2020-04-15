@@ -131,7 +131,7 @@ public class SwitchAccessService extends AccessibilityService {
         Log.i(LOG_TAG, "onKeyEvent: " + event);
         AccessibilityNodeInfoCompat currentFocusedNode = AccessibilityServiceCompatUtils.getInputFocusedNode(this);
         switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_DPAD_DOWN:
+            case KeyEvent.KEYCODE_DPAD_LEFT:
                 // Get the focused node
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
                 // to test, packageName: com.example.myapplication;
@@ -141,7 +141,7 @@ public class SwitchAccessService extends AccessibilityService {
                     GlobalConstants.currentNodeCompat_HomeMain.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
                 }
                 break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
+            case KeyEvent.KEYCODE_DPAD_UP:
                 // Get the focused node
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
                 // to test, packageName: com.example.myapplication;
@@ -150,10 +150,6 @@ public class SwitchAccessService extends AccessibilityService {
                 if (validateCurrentNode(currentFocusedNode)) {
                     GlobalConstants.currentNodeCompat_phoneButton.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
                 }
-                break;
-            case KeyEvent.KEYCODE_DPAD_UP:
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_A:

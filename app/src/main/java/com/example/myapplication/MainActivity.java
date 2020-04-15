@@ -3,7 +3,6 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,23 +10,31 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
 import android.widget.Button;
 
-import com.example.myapplication.nodes.MainTreeBuilder;
-import com.example.myapplication.utils.AccessibilityServiceCompatUtils;
-
 public class MainActivity extends AppCompatActivity {
+
+    private Button play_pause_button, next_button, previous_button, now_playing_button, Music_menu_button, Settings_button, more_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        play_pause_button = (Button) findViewById(R.id.btn_play_pause);
+        next_button = (Button) findViewById(R.id.btn_next);
+        previous_button = (Button) findViewById(R.id.btn_previous);
+        now_playing_button = (Button) findViewById(R.id.btn_now_playing);
+        Music_menu_button = (Button) findViewById(R.id.btn_music_menu);
+        Settings_button = (Button) findViewById(R.id.btn_Settings);
+        more_button = (Button) findViewById(R.id.btn_more);
+        play_pause_button.requestFocus(0);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+
 
 //        play_pause_button.requestFocus();
         return super.onCreateView(name, context, attrs);
@@ -46,9 +53,84 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 break;
-            case KeyEvent.KEYCODE_N:
-                Button play_pause_button = (Button) findViewById(R.id.btn_play_pause);
-                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            case KeyEvent.KEYCODE_K:
+
+//
+//                if (getCurrentFocus() == play_pause_button) {
+//
+//                }
+//
+//                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+//                play_pause_button.setNextFocusForwardId(R.id.btn_next);
+
+                break;
+            case KeyEvent.KEYCODE_L:
+                Log.i(GlobalConstants.LOGTAG, "getCurrentFocus: " + getCurrentFocus().getId() + " btn_play_pause: " + R.id.btn_play_pause);
+                if (event.getAction() == KeyEvent.ACTION_UP) {
+                    return super.dispatchKeyEvent(event);
+                }
+
+                switch (getCurrentFocus().getId()) {
+                    case R.id.btn_play_pause:
+                        previous_button.requestFocus();
+                        break;
+                    case R.id.btn_previous:
+                        Music_menu_button.requestFocus();
+                        break;
+                    case R.id.btn_music_menu:
+                        now_playing_button.requestFocus();
+                        break;
+//                    case R.id.btn_top:
+//                        Settings_button.requestFocus();
+//                        break;
+                    case R.id.btn_Settings:
+                        more_button.requestFocus();
+                        break;
+                    case R.id.btn_more:
+                        next_button.requestFocus();
+                        break;
+                    case R.id.btn_next:
+                        play_pause_button.requestFocus();
+                        break;
+
+
+                }
+
+                break;
+
+
+            case KeyEvent.KEYCODE_R:
+                Log.i(GlobalConstants.LOGTAG, "getCurrentFocus: " + getCurrentFocus().getId() + " btn_play_pause: " + R.id.btn_play_pause);
+
+                if (event.getAction() == KeyEvent.ACTION_UP) {
+                    return super.dispatchKeyEvent(event);
+                }
+
+                switch (getCurrentFocus().getId()) {
+                    case R.id.btn_play_pause:
+                        next_button.requestFocus();
+                        break;
+                    case R.id.btn_next:
+                        more_button.requestFocus();
+                        break;
+                    case R.id.btn_more:
+                        Settings_button.requestFocus();
+                        break;
+//                    case R.id.btn_last:
+//                        now_playing_button.requestFocus();
+//                        break;
+                    case R.id.btn_now_playing:
+                        Music_menu_button.requestFocus();
+                        break;
+                    case R.id.btn_music_menu:
+                        previous_button.requestFocus();
+                        break;
+                    case R.id.btn_previous:
+                        play_pause_button.requestFocus();
+                        break;
+
+
+                }
                 break;
         }
         return super.dispatchKeyEvent(event);
