@@ -74,9 +74,6 @@ public abstract class TreeBuilder {
             AccessibilityNodeInfo windowRoot = window.getRoot();
             if ((windowRoot != null) && (windowRoot.getChildCount() == 1)) {
                 AccessibilityNodeInfo firstChild = windowRoot.getChild(0);
-
-//                Log.i(GlobalConstants.LOGTAG, "firstChild: " + firstChild);
-
                 if (firstChild != null) {
                     CharSequence className = firstChild.getClassName();
                     if ((className != null)
@@ -88,18 +85,15 @@ public abstract class TreeBuilder {
             }
             windowsAboveFiltered.add(window);
         }
-
         int childCount = root.getChildCount();
         Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat childCount: " + childCount);
-
         AccessibilityNodeInfoCompat child = null;
         AccessibilityNodeInfoCompat secondchild = null;
         for (int i = 0; i < childCount; i++) {
             try {
                 child = root.getChild(i);
                 childNodes.add(child);
-                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat child: " + i + " :" + child);
-
+                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child);
                 // TODO: sample button are stored, to use the nodes for navigation test.
                 if (child.getText() != null && child.getText().toString().contains("HOMEBUTTON")) {
                     Log.i(GlobalConstants.LOGTAG, "secondchild HOMEBUTTON: ");
@@ -121,7 +115,6 @@ public abstract class TreeBuilder {
                     GlobalConstants.currentNodeCompat_playPauseButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
 
-
                 int subChildCount = child.getChildCount();
                 for (int j = 0; j < subChildCount; j++) {
                     secondchild = child.getChild(j);
@@ -140,7 +133,6 @@ public abstract class TreeBuilder {
                         Log.i(GlobalConstants.LOGTAG, "secondchild OVERVIEW: ");
                         GlobalConstants.currentNodeCompat_OverviewMain = AccessibilityNodeInfoCompat.obtain(secondchild);
                     }
-
 
                     Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
 //                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
