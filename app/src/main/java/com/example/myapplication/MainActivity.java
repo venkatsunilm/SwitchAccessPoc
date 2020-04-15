@@ -14,7 +14,10 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button play_pause_button, next_button, previous_button, now_playing_button, Music_menu_button, Settings_button, more_button;
+    private Button play_pause_button, next_button, previous_button,
+            now_playing_button, Music_menu_button, Settings_button,
+            more_button,home_button,music_button,phone_button,back_button
+            ,overview_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
         Music_menu_button = (Button) findViewById(R.id.btn_music_menu);
         Settings_button = (Button) findViewById(R.id.btn_Settings);
         more_button = (Button) findViewById(R.id.btn_more);
+        home_button = (Button) findViewById(R.id.btn_home);
+        music_button=(Button) findViewById(R.id.btn_music);
+        phone_button = (Button)findViewById(R.id.btn_phone);
+        back_button = (Button)findViewById(R.id.btn_back);
+        overview_button = (Button)findViewById(R.id.btn_overview);
         play_pause_button.requestFocus(0);
     }
 
@@ -94,6 +102,23 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btn_next:
                         play_pause_button.requestFocus();
                         break;
+                    case R.id.btn_music:
+                        home_button.requestFocus();
+                        break;
+                    case R.id.btn_phone:
+                        music_button.requestFocus();
+                        break;
+                    case R.id.btn_back:
+                        phone_button.requestFocus();
+                        break;
+                    case R.id.btn_overview:
+                        back_button.requestFocus();
+                        break;
+
+//                    case R.id.btn_home:
+//                        music_button.requestFocus();
+//                        break;
+
 
 
                 }
@@ -130,6 +155,20 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btn_previous:
                         play_pause_button.requestFocus();
                         break;
+                    case R.id.btn_home:
+                        music_button.requestFocus();
+                        break;
+                    case R.id.btn_music:
+                        phone_button.requestFocus();
+                        break;
+                    case R.id.btn_phone:
+                        back_button.requestFocus();
+                        break;
+                    case R.id.btn_back:
+                        overview_button.requestFocus();
+                        break;
+
+
 
 
                 }
