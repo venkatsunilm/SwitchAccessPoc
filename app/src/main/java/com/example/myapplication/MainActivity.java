@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button play_pause_button, next_button, previous_button,
             now_playing_button, Music_menu_button, Settings_button,
             more_button,home_button,music_button,phone_button,back_button
-            ,overview_button;
+            ,overview_button,TED_button,NAV_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         phone_button = (Button)findViewById(R.id.btn_phone);
         back_button = (Button)findViewById(R.id.btn_back);
         overview_button = (Button)findViewById(R.id.btn_overview);
+        TED_button = (Button)findViewById(R.id.btn_TED);
+        NAV_button = (Button)findViewById(R.id.btn_NAV);
         play_pause_button.requestFocus(0);
     }
 
@@ -117,6 +119,13 @@ public class MainActivity extends AppCompatActivity {
 //                        music_button.requestFocus();
 //                        break;
 
+                    case R.id.btn_TED:
+                        NAV_button.requestFocus();
+                        break;
+                    case R.id.btn_NAV:
+                        TED_button.requestFocus();
+                        break;
+
 
 
                 }
@@ -165,6 +174,13 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.btn_back:
                         overview_button.requestFocus();
                         break;
+                    case R.id.btn_TED:
+                        NAV_button.requestFocus();
+                        break;
+                    case R.id.btn_NAV:
+                        TED_button.requestFocus();
+                        break;
+
 
 
 
