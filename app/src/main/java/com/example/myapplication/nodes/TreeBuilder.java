@@ -95,22 +95,22 @@ public abstract class TreeBuilder {
                 childNodes.add(child);
                 Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child);
                 // TODO: sample button are stored, to use the nodes for navigation test.
-                if (child.getText() != null && child.getText().toString().contains("HOMEBUTTON")) {
+                if (child.getText() != null && child.getText().toString().contains("Home")) {
                     Log.i(GlobalConstants.LOGTAG, "secondchild HOMEBUTTON: ");
                     GlobalConstants.currentNodeCompat_homeButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
 
-                if (child.getText() != null && child.getText().toString().contains("MUSICBUTTON")) {
+                if (child.getText() != null && child.getText().toString().contains("Music")) {
                     Log.i(GlobalConstants.LOGTAG, "secondchild MUSICBUTTON: ");
                     GlobalConstants.currentNodeCompat_musicButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
 
-                if (child.getText() != null && child.getText().toString().contains("PHONEBUTTON")) {
+                if (child.getText() != null && child.getText().toString().contains("Phone")) {
                     Log.i(GlobalConstants.LOGTAG, "secondchild PHONEBUTTON: ");
                     GlobalConstants.currentNodeCompat_phoneButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
 
-                if (child.getText() != null && child.getText().toString().contains("PLAY_PAUSE")) {
+                if (child.getText() != null && child.getText().toString().contains("Play_Pause")) {
                     Log.i(GlobalConstants.LOGTAG, "secondchild PLAY_PAUSE: ");
                     GlobalConstants.currentNodeCompat_playPauseButton = AccessibilityNodeInfoCompat.obtain(child);
                 }

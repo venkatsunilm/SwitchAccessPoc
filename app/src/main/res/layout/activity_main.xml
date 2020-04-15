@@ -128,7 +128,6 @@
         android:layout_height="200dp"
         android:layout_marginStart="100dp"
         android:layout_marginLeft="100dp"
-        android:background="@drawable/song"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

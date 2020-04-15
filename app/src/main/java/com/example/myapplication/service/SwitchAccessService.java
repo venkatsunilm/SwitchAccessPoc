@@ -117,7 +117,7 @@ public class SwitchAccessService extends AccessibilityService {
 
     private boolean validateCurrentNode(AccessibilityNodeInfoCompat currentFocusedNode) {
         if (currentFocusedNode.getPackageName().equals("com.example.myapplication")
-                && (currentFocusedNode.getText().toString().contains("PLAY_PAUSE") ||
+                && (currentFocusedNode.getText().toString().contains("play_pause") ||
                 currentFocusedNode.getText().toString().contains("next") ||
                 currentFocusedNode.getText().toString().contains("more") ||
                 currentFocusedNode.getText().toString().contains("prev"))) {
@@ -128,6 +128,10 @@ public class SwitchAccessService extends AccessibilityService {
 
     @Override
     protected boolean onKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP) {
+            return super.onKeyEvent(event);
+        }
+
         Log.i(LOG_TAG, "onKeyEvent: " + event);
         AccessibilityNodeInfoCompat currentFocusedNode = AccessibilityServiceCompatUtils.getInputFocusedNode(this);
         switch (event.getKeyCode()) {
@@ -136,9 +140,9 @@ public class SwitchAccessService extends AccessibilityService {
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
                 // to test, packageName: com.example.myapplication;
                 // TODO: Code refactoring and store hardcoded values into constants
-                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode.getParent());
+                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode + " validate node: "+ validateCurrentNode(currentFocusedNode));
                 if (validateCurrentNode(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_HomeMain.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
+                    GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_UP:

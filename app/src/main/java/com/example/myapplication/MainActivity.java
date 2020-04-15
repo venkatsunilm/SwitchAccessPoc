@@ -44,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean dispatchKeyEvent(KeyEvent event) {
         Log.i("Venk", "dispatchKeyEvent: " + event);
 
+        if (event.getAction() == KeyEvent.ACTION_UP) {
+            return super.dispatchKeyEvent(event);
+        }
+
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_UP:
                 break;
@@ -66,9 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case KeyEvent.KEYCODE_L:
                 Log.i(GlobalConstants.LOGTAG, "getCurrentFocus: " + getCurrentFocus().getId() + " btn_play_pause: " + R.id.btn_play_pause);
-                if (event.getAction() == KeyEvent.ACTION_UP) {
-                    return super.dispatchKeyEvent(event);
-                }
+
 
                 switch (getCurrentFocus().getId()) {
                     case R.id.btn_play_pause:
