@@ -11,18 +11,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        debug {
-            debuggable true
-//            signingConfig signingConfigs.platform
-        }
-
-        release {
-//            signingConfig signingConfigs.platform
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
 
     signingConfigs {
         platform {
@@ -30,6 +18,13 @@ android {
             storePassword 'GeneralMotors'
             keyAlias 'platform'
             keyPassword 'GeneralMotors'
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            signingConfig signingConfigs.platform
         }
     }
 
