@@ -140,12 +140,13 @@ public class SwitchAccessService extends AccessibilityService {
                 break;
 
             case KeyEvent.KEYCODE_Q:
-                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+              GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_SET_SELECTION);
                 // Log.i(LOG_TAG, "getInputFocusedNode ####: " + AccessibilityServiceCompatUtils.getInputFocusedNode(this));
                 break;
 
             case KeyEvent.KEYCODE_W:
-                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+//                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+                performGlobalAction(GLOBAL_ACTION_HOME);
                 break;
         }
 

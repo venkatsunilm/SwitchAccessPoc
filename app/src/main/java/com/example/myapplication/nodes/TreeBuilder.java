@@ -152,8 +152,8 @@ public abstract class TreeBuilder {
             }
 
             // Create our list of nodes.
-            LinkedList<SwitchAccessNodeCompat> outList = new LinkedList<>();
-            OrderedTraversalController traversalController = new OrderedTraversalController();
+//            LinkedList<SwitchAccessNodeCompat> outList = new LinkedList<>();
+//            OrderedTraversalController traversalController = new OrderedTraversalController();
 //    traversalController.initOrder(root, true);
 //    AccessibilityNodeInfoCompat node = traversalController.findFirst();
 //    while (node != null) {
