@@ -141,7 +141,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:gravity="start"
-        android:text="Song Title"
+        android:text="@string/song_title"
         android:textAlignment="textStart"
         app:layout_constraintStart_toEndOf="@id/track_image"
         app:layout_constraintTop_toTopOf="@id/track_image" />

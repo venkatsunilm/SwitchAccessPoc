@@ -20,14 +20,9 @@ import android.accessibilityservice.AccessibilityService;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
-
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-
 import com.example.myapplication.GlobalConstants;
 import com.example.myapplication.SwitchAccessNodeCompat;
-//import com.google.android.accessibility.switchaccess.ui.ButtonSwitchAccessIgnores;
-//import com.google.android.accessibility.utils.traversal.OrderedTraversalController;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,43 +89,42 @@ public abstract class TreeBuilder {
                 child = root.getChild(i);
                 childNodes.add(child);
                 Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child);
-                // TODO: sample button are stored, to use the nodes for navigation test.
-                if (child.getText() != null && child.getText().toString().contains("Home")) {
-                    Log.i(GlobalConstants.LOGTAG, "secondchild HOMEBUTTON: ");
+                // TODO: For now to test, the objects are forcely stores in test sample variales
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.HOMETEXT)) {
                     GlobalConstants.currentNodeCompat_homeButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
-
-                if (child.getText() != null && child.getText().toString().contains("Music")) {
-                    Log.i(GlobalConstants.LOGTAG, "secondchild MUSICBUTTON: ");
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.MUSICTEXT)) {
                     GlobalConstants.currentNodeCompat_musicButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
-
-                if (child.getText() != null && child.getText().toString().contains("Phone")) {
-                    Log.i(GlobalConstants.LOGTAG, "secondchild PHONEBUTTON: ");
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.PHONETEXT)) {
                     GlobalConstants.currentNodeCompat_phoneButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
-
-                if (child.getText() != null && child.getText().toString().contains("Play_Pause")) {
-                    Log.i(GlobalConstants.LOGTAG, "secondchild PLAY_PAUSE: ");
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.PREVTEXT)) {
+                    GlobalConstants.currentNodeCompat_previousButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.PLAYPAUSETEXT)) {
                     GlobalConstants.currentNodeCompat_playPauseButton = AccessibilityNodeInfoCompat.obtain(child);
                 }
-
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.TEDTEXT)) {
+                    GlobalConstants.currentNodeCompat_TEDradioHourButton = AccessibilityNodeInfoCompat.obtain(child);
+                }
+                if (child.getText() != null && child.getText().toString().equals(GlobalConstants.MIN36TEXT)) {
+                    GlobalConstants.currentNodeCompat_MIN36 = AccessibilityNodeInfoCompat.obtain(child);
+                    Log.i(GlobalConstants.LOGTAG, "GlobalConstants.currentNodeCompat_MIN36: "+ GlobalConstants.currentNodeCompat_MIN36);
+                }
                 int subChildCount = child.getChildCount();
                 for (int j = 0; j < subChildCount; j++) {
                     secondchild = child.getChild(j);
-
-                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Back")) {
-                        Log.i(GlobalConstants.LOGTAG, "secondchild BACK: ");
+                    if (secondchild.getContentDescription() != null
+                            && secondchild.getContentDescription().toString().equals(GlobalConstants.BACKTEXT)) {
                         GlobalConstants.currentNodeCompat_BackMain = AccessibilityNodeInfoCompat.obtain(secondchild);
                     }
-
-                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Home")) {
-                        Log.i(GlobalConstants.LOGTAG, "secondchild HOME: ");
+                    if (secondchild.getContentDescription() != null
+                            && secondchild.getContentDescription().toString().equals(GlobalConstants.HOMETEXT)) {
                         GlobalConstants.currentNodeCompat_HomeMain = AccessibilityNodeInfoCompat.obtain(secondchild);
                     }
-
-                    if (secondchild.getContentDescription() != null && secondchild.getContentDescription().toString().contains("Overview")) {
-                        Log.i(GlobalConstants.LOGTAG, "secondchild OVERVIEW: ");
+                    if (secondchild.getContentDescription() != null
+                            && secondchild.getContentDescription().toString().equals(GlobalConstants.OVERVIEWTEXT)) {
                         GlobalConstants.currentNodeCompat_OverviewMain = AccessibilityNodeInfoCompat.obtain(secondchild);
                     }
 

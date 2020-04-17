@@ -9,7 +9,26 @@ public class GlobalConstants {
     public static AccessibilityNodeInfoCompat currentNodeCompat_musicButton;
     public static AccessibilityNodeInfoCompat currentNodeCompat_phoneButton;
     public static AccessibilityNodeInfoCompat currentNodeCompat_playPauseButton;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_previousButton;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_TEDradioHourButton;
     public static AccessibilityNodeInfoCompat currentNodeCompat_BackMain;
     public static AccessibilityNodeInfoCompat currentNodeCompat_HomeMain;
     public static AccessibilityNodeInfoCompat currentNodeCompat_OverviewMain;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_MIN36;
+
+    public static String PREVTEXT = "Prev";
+    public static String PLAYPAUSETEXT = "Play_Pause";
+    public static String NEXTTEXT = "Next";
+    public static String MORETEXT = "More";
+    public static String TEDTEXT = "TED RADIO HOUR";
+    public static String MIN36TEXT = "36 Min To Work";
+    public static String HOMETEXT = "Home";
+    public static String MUSICTEXT = "Music";
+    public static String PHONETEXT = "Phone";
+    public static String BACKTEXT = "Back";
+    public static String OVERVIEWTEXT = "Overview";
+    public static String MUSICMENUTEXT = "Music menu";
+    public static String NOWPLAYINGTEXT = "Now playing";
+    public static String SETTINGSTEXT = "Settings";
+    public static String MYAPPPACKAGE = "com.example.myapplication";
 }
