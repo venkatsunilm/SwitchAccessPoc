@@ -5,6 +5,8 @@
     package="com.example.myapplication"
     tools:ignore="ProtectedPerissions">
 
+<!--    android:sharedUserId="com.google.android.accessibility.switchaccess.uid"-->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,20 +17,26 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--        android:launchMode="singleTop"-->
+
         <service
             android:name=".service.SwitchAccessService"
+            android:exported="true"
+            android:directBootAware="true"
             android:label="@string/accessibility_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
+                <!--<action android:name=".service.SwitchAccessService"/>-->
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"

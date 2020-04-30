@@ -3,6 +3,7 @@ package com.example.myapplication.service;
 import android.accessibilityservice.AccessibilityButtonController;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
@@ -293,4 +294,23 @@ public class SwitchAccessService extends AccessibilityService {
     public void onInterrupt() {
         Log.d(LOG_TAG, "onInterrupt: .");
     }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(GlobalConstants.LOGTAG, "onStartCommand flags: "+ flags + " start id: "+ startId);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    //    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        //TODO write your own code
+//
+//        return Service.START_NOT_STICKY;
+//    }
+//
+//    @Override
+//    public IBinder onBind(Intent intent) {
+//        //TODO for communication return IBinder implementation
+//        return null;
+//    }
 }
