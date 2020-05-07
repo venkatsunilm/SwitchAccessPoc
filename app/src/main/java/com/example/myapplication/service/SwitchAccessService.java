@@ -3,10 +3,15 @@ package com.example.myapplication.service;
 import android.accessibilityservice.AccessibilityButtonController;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -21,8 +26,12 @@ import com.example.myapplication.nodes.MainTreeBuilder;
 import com.example.myapplication.utils.AccessibilityServiceCompatUtils;
 import com.example.myapplication.utils.UiChangeStabilizer;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import static android.view.KeyEvent.KEYCODE_BUTTON_X;
 
 public class SwitchAccessService extends AccessibilityService {
 
@@ -106,6 +115,34 @@ public class SwitchAccessService extends AccessibilityService {
         Log.i(LOG_TAG, "onServiceConnected.... ");
     }
 
+
+    private static final HashMap<Class, WeakReference<SwitchAccessService>>
+            sInstances = new HashMap<>();
+
+    public static <T extends SwitchAccessService> T getInstanceForClass(Class clazz,
+                                                                        long timeoutMillis) {
+        final long timeoutTimeMillis = SystemClock.uptimeMillis() + timeoutMillis;
+        while (SystemClock.uptimeMillis() < timeoutTimeMillis) {
+            synchronized (sInstances) {
+                final WeakReference<SwitchAccessService> ref = sInstances.get(clazz);
+                if (ref != null) {
+                    final T instance = (T) ref.get();
+                    if (instance == null) {
+                        sInstances.remove(clazz);
+                    } else {
+                        return instance;
+                    }
+                }
+                try {
+                    sInstances.wait(timeoutTimeMillis - SystemClock.uptimeMillis());
+                } catch (InterruptedException e) {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
 //    Log.i(LOG_TAG, "getActiveWidow: " + AccessibilityServiceCompatUtils.getActiveWidow(this));
 //        Log.i(LOG_TAG, "getWindows: " + AccessibilityServiceCompatUtils.getWindows(this));
 //        Log.i(LOG_TAG, "getInputFocusedNode: " + AccessibilityServiceCompatUtils.getInputFocusedNode(this));
@@ -157,7 +194,7 @@ public class SwitchAccessService extends AccessibilityService {
         Log.i(GlobalConstants.LOGTAG, "Switch access service: " + event.getKeyCode());
         AccessibilityNodeInfoCompat currentFocusedNode = AccessibilityServiceCompatUtils.getInputFocusedNode(this);
         if (currentFocusedNode != null) {
-            Log.i(GlobalConstants.LOGTAG, "Service currentFocusedNode text " + currentFocusedNode.getText());
+            Log.i(GlobalConstants.LOGTAG, "Service currentFocusedNode text " + currentFocusedNode.getViewIdResourceName());
         }
 
         switch (event.getKeyCode()) {
@@ -182,9 +219,9 @@ public class SwitchAccessService extends AccessibilityService {
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
                 // to test, packageName: com.example.myapplication;
                 // TODO: Code refactoring and store hardcoded values into constants
-                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: "+ validateCurrentMusicNode(currentFocusedNode)
-                + " validateCurrentTEDHOURButton: "+ validateCurrentTEDHOURButton(currentFocusedNode)
-                + " validateCurrentAppTray: "+ validateCurrentAppTray(currentFocusedNode));
+                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
+                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
+                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
 
                 if (validateCurrentMusicNode(currentFocusedNode)
                         || validateCurrentTEDHOURButton(currentFocusedNode)) {
@@ -201,7 +238,7 @@ public class SwitchAccessService extends AccessibilityService {
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
                 // to test, packageName: com.example.myapplication;
                 // TODO: Code refactoring and store hardcoded values into constants
-                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode.getParent());
+//                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode.getParent());
                 if (validateCurrentMusicNode(currentFocusedNode)
                         || validateCurrentAppTray(currentFocusedNode)) {
                     GlobalConstants.currentNodeCompat_MIN36.
@@ -214,9 +251,9 @@ public class SwitchAccessService extends AccessibilityService {
 //                GlobalConstants.currentNodeCompat_previousButton.
 //                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
 
-                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: "+ validateCurrentMusicNode(currentFocusedNode)
-                        + " validateCurrentTEDHOURButton: "+ validateCurrentTEDHOURButton(currentFocusedNode)
-                        + " validateCurrentAppTray: "+ validateCurrentAppTray(currentFocusedNode));
+                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
+                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
+                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
 
                 // Get the focused node
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
@@ -243,17 +280,19 @@ public class SwitchAccessService extends AccessibilityService {
             case KeyEvent.KEYCODE_BUTTON_R2:
                 Toast.makeText(this, "KEYCODE_S/KEYCODE_BUTTON_R2", Toast.LENGTH_SHORT).show();
 //                TO set focus to play pause button forcefully for testing purpose
-                GlobalConstants.currentNodeCompat_playPauseButton.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+                GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
                 break;
             case KeyEvent.KEYCODE_D:
-                Toast.makeText(this, "KEYCODE_D", Toast.LENGTH_SHORT).show();
+            case KeyEvent.KEYCODE_BUTTON_X:
+                Toast.makeText(this, "KEYCODE_D/KEYCODE_BUTTON_B", Toast.LENGTH_SHORT).show();
 //                To set focus to Overview app tray button forcefully for testing purpose
-                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+                GlobalConstants.currentNodeCompat_AOSP_MUSIC.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
                 break;
             case KeyEvent.KEYCODE_Q:
-                Toast.makeText(this, "KEYCODE_Q", Toast.LENGTH_SHORT).show();
+            case KeyEvent.KEYCODE_BUTTON_B:
+                Toast.makeText(this, "KEYCODE_Q/KEYCODE_BUTTON_X", Toast.LENGTH_SHORT).show();
 //                To perform a click action on the overview button of the phone app tray navigation icon.
-                GlobalConstants.currentNodeCompat_OverviewMain.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
+                GlobalConstants.currentNodeCompat_AOSP_HOME.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
                 break;
             case KeyEvent.KEYCODE_W:
                 Toast.makeText(this, "KEYCODE_W", Toast.LENGTH_SHORT).show();
@@ -297,7 +336,10 @@ public class SwitchAccessService extends AccessibilityService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(GlobalConstants.LOGTAG, "onStartCommand flags: "+ flags + " start id: "+ startId);
+        Log.i(GlobalConstants.LOGTAG, "onStartCommand flags: " + flags + " start id: " + startId);
+
+//        enableService(SwitchAccessService.class);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -313,4 +355,80 @@ public class SwitchAccessService extends AccessibilityService {
 //        //TODO for communication return IBinder implementation
 //        return null;
 //    }
+
+//    #region Enable disable a service using test
+
+//    private static final boolean DEBUG = false;
+//    public static final int TIMEOUT_SERVICE_ENABLE = DEBUG ? Integer.MAX_VALUE : 10000;
+//    public <T extends SwitchAccessService> T enableService(
+//            Class<T> clazz) {
+//        final String serviceName = clazz.getSimpleName();
+////        final Context context = instrumentation.getContext();
+//        final String enabledServices = Settings.Secure.getString(
+//                getContentResolver(),
+//                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+//        if (enabledServices != null) {
+////            assertFalse("Service is already enabled", enabledServices.contains(serviceName));
+//            Log.i(GlobalConstants.LOGTAG, "Service already enabled .......... **************** ");
+//        }
+//        final AccessibilityManager manager = (AccessibilityManager) getSystemService(
+//                Context.ACCESSIBILITY_SERVICE);
+//        final List<AccessibilityServiceInfo> serviceInfos =
+//                manager.getInstalledAccessibilityServiceList();
+//        for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
+//            final String serviceId = serviceInfo.getId();
+//            if (serviceId.endsWith(serviceName)) {
+//
+//                Settings.Secure.putString(Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+//                        enabledServices + COMPONENT_NAME_SEPARATOR + serviceId)
+////                ShellCommandBuilder.create(instrumentation)
+////                        .putSecureSetting(Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+////                                enabledServices + COMPONENT_NAME_SEPARATOR + serviceId)
+////                        .putSecureSetting(Settings.Secure.ACCESSIBILITY_ENABLED, "1")
+////                        .run();
+////
+////                final T instance = getInstanceForClass(clazz, TIMEOUT_SERVICE_ENABLE);
+////                if (instance == null) {
+////                    ShellCommandBuilder.create(instrumentation)
+////                            .putSecureSetting(Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+////                                    enabledServices)
+////                            .run();
+////                    throw new RuntimeException("Starting accessibility service " + serviceName
+////                            + " took longer than " + TIMEOUT_SERVICE_ENABLE + "ms");
+////                }
+////                return instance;
+//            }
+//        }
+//        throw new RuntimeException("Accessibility service " + serviceName + " not found");
+//    }
+
+
+//    public static void disableAllServices(Instrumentation instrumentation) {
+//        final Object waitLockForA11yOff = new Object();
+//        final Context context = instrumentation.getContext();
+//        final AccessibilityManager manager =
+//                (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
+//        // Updates to manager.isEnabled() aren't synchronized
+//        final AtomicBoolean accessibilityEnabled = new AtomicBoolean(manager.isEnabled());
+//        manager.addAccessibilityStateChangeListener(b -> {
+//            synchronized (waitLockForA11yOff) {
+//                waitLockForA11yOff.notifyAll();
+//                accessibilityEnabled.set(b);
+//            }
+//        });
+//        final UiAutomation uiAutomation = instrumentation.getUiAutomation(
+//                UiAutomation.FLAG_DONT_SUPPRESS_ACCESSIBILITY_SERVICES);
+//        ShellCommandBuilder.create(uiAutomation)
+//                .deleteSecureSetting(Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES)
+//                .deleteSecureSetting(Settings.Secure.ACCESSIBILITY_ENABLED)
+//                .run();
+//        uiAutomation.destroy();
+//
+//        waitOn(waitLockForA11yOff, () -> !accessibilityEnabled.get(), TIMEOUT_SERVICE_ENABLE,
+//                "Accessibility turns off");
+//    }
+//
+
+//    #endregion
+
 }

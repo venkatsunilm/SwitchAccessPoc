@@ -15,6 +15,10 @@ public class GlobalConstants {
     public static AccessibilityNodeInfoCompat currentNodeCompat_HomeMain;
     public static AccessibilityNodeInfoCompat currentNodeCompat_OverviewMain;
     public static AccessibilityNodeInfoCompat currentNodeCompat_MIN36;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_AOSP_HOME;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_AOSP_MAPS;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_AOSP_MUSIC;
+    public static AccessibilityNodeInfoCompat currentNodeCompat_AOSP_PLAY_PAUSE;
 
     public static String PREVTEXT = "Prev";
     public static String PLAYPAUSETEXT = "Play_Pause";
@@ -31,4 +35,8 @@ public class GlobalConstants {
     public static String NOWPLAYINGTEXT = "Now playing";
     public static String SETTINGSTEXT = "Settings";
     public static String MYAPPPACKAGE = "com.example.myapplication";
+    public static String AOSP_HOME = "com.android.systemui:id/home";
+    public static String AOSP_MAPS = "com.android.systemui:id/maps_nav";
+    public static String AOSP_MUSIC = "com.android.systemui:id/music_nav";
+    public static String AOSP_PLAY_PAUSE = "com.example.myapplication:id/btn_play_pause";
 }

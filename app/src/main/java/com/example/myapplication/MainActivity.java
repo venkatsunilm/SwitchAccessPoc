@@ -1,13 +1,16 @@
 package com.example.myapplication;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -18,8 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.service.SwitchAccessService;
 
-public class MainActivity extends AppCompatActivity implements AccessibilityManager.AccessibilityStateChangeListener {
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+
+    private static final String COMPONENT_NAME_SEPARATOR = ":";
     private Button play_pause_button, next_button, previous_button,
             now_playing_button, Music_menu_button, Settings_button,
             more_button, home_button, music_button, phone_button, back_button, overview_button, TED_button, NAV_button;
@@ -49,14 +55,22 @@ public class MainActivity extends AppCompatActivity implements AccessibilityMana
         Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
         Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.getInstalledAccessibilityServiceList());
 
-        accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener(){
+        accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener() {
 
             @Override
             public void onAccessibilityStateChanged(boolean enabled) {
                 Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY addAccessibilityStateChangeListener onAccessibilityStateChanged  222");
             }
         });
+
+        // Make the activity listen to policy change events
+//        CombinedPolicyProvider.get().addPolicyChangeListener(this);
+
+
         play_pause_button.requestFocus();
+
+        enableService(SwitchAccessService.class);
+
 
     }
 
@@ -78,25 +92,87 @@ public class MainActivity extends AppCompatActivity implements AccessibilityMana
         play_pause_button.requestFocus();
     }
 
+
+    private static final boolean DEBUG = false;
+    public static final int TIMEOUT_SERVICE_ENABLE = DEBUG ? Integer.MAX_VALUE : 10000;
+
+    public void enableService(
+            Class clazz) {
+        final String serviceName = clazz.getSimpleName();
+//        final Context context = instrumentation.getContext();
+        final String enabledServices = Settings.Secure.getString(
+                getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+
+        Log.i(GlobalConstants.LOGTAG, "enabledServices: " + enabledServices);
+        if (enabledServices != null) {
+//            assertFalse("Service is already enabled", enabledServices.contains(serviceName));
+            Log.i(GlobalConstants.LOGTAG, "Service already enabled .......... **************** ");
+        }
+//        final AccessibilityManager manager = (AccessibilityManager) getSystemService(
+//                ACCESSIBILITY_SERVICE);
+        final List<AccessibilityServiceInfo> serviceInfos =
+                accessibilityManager.getInstalledAccessibilityServiceList();
+        for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
+            final String serviceId = serviceInfo.getId();
+            if (enabledServices == null && serviceId.endsWith(serviceName)) {
+                Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceName);
+                try {
+                    Settings.Secure.putString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+                            enabledServices + COMPONENT_NAME_SEPARATOR + serviceId);
+
+                    Settings.Secure.putString(getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED,
+                            "1");
+                } catch (Exception ex) {
+                    Log.i(GlobalConstants.LOGTAG, ex.getStackTrace().toString());
+                }
+            }
+        }
+
+        Log.i(GlobalConstants.LOGTAG, "manager.isEnabled(): " + accessibilityManager.isEnabled());
+//        throw new RuntimeException("Accessibility service " + serviceName + " not found");
+    }
+
+
+    private void disableAllServices() {
+        final List<AccessibilityServiceInfo> serviceInfos =
+                accessibilityManager.getInstalledAccessibilityServiceList();
+        for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
+            Settings.Secure.putString(getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED,
+                    "0");
+        }
+    }
+
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_UP) {
             return false;
         }
 
-//        Log.i(GlobalConstants.LOGTAG, "Main Activity dispatchKeyEvent keycode: " + event.getKeyCode());
+        Log.i(GlobalConstants.LOGTAG, "Main Activity dispatchKeyEvent keycode: " + event.getKeyCode());
 
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_K:
-//                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+//            case KeyEvent.KEYCODE_BUTTON_B:
                 Intent intent = new Intent(this, SwitchAccessService.class);
                 startService(intent);
                 Log.i(GlobalConstants.LOGTAG, "Service started ... intent: " + intent);
+                Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
+                break;
+            case KeyEvent.KEYCODE_Z:
+                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+                Log.i(GlobalConstants.LOGTAG, "  getEnabledAccessibilityServiceList: " +
+                        accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC));
+
+                disableAllServices();
+
+                Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
+
                 break;
 //                Using L key to do lLEFT ROTATE traversal
             case KeyEvent.KEYCODE_L:
             case KeyEvent.KEYCODE_BUTTON_L1:
-                Toast.makeText(this, "KEYCODE_L/KEYCODE_BUTTON_L1", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "KEYCODE_L/KEYCODE_BUTTON_L1", Toast.LENGTH_SHORT).show();
 //                TODO: Refactoring to be done, this is a test sample
                 switch (getCurrentFocus().getId()) {
                     case R.id.btn_play_pause:
@@ -140,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements AccessibilityMana
                 break;
             case KeyEvent.KEYCODE_R:
             case KeyEvent.KEYCODE_BUTTON_R1:
-                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
                 if (event.getAction() == KeyEvent.ACTION_UP) {
                     return super.dispatchKeyEvent(event);
                 }
@@ -202,13 +278,23 @@ public class MainActivity extends AppCompatActivity implements AccessibilityMana
         return false;
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
+//    @Override
+//    public void onPointerCaptureChanged(boolean hasCapture) {
+//
+//    }
+//
+//    @Override
+//    public void onAccessibilityStateChanged(boolean enabled) {
+//        Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY onAccessibilityStateChanged  1111");
+//    }
 
-    }
-
-    @Override
-    public void onAccessibilityStateChanged(boolean enabled) {
-        Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY onAccessibilityStateChanged  1111");
+    private void sendAccessibilityEvent(int eventType, int virtualId) {
+        AccessibilityEvent event = AccessibilityEvent.obtain();
+        event.setEventType(eventType);
+//        event.setSource(this, virtualId);
+        event.setEnabled(true);
+        event.setPackageName(getPackageName());
+        Log.v(GlobalConstants.LOGTAG, "sendAccessibilityEvent(" + eventType + ", " + virtualId + "): " + event);
+        getSystemService(AccessibilityManager.class).sendAccessibilityEvent(event);
     }
 }

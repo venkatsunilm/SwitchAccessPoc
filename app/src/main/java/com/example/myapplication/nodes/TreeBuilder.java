@@ -20,9 +20,12 @@ import android.accessibilityservice.AccessibilityService;
 import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+
 import com.example.myapplication.GlobalConstants;
 import com.example.myapplication.SwitchAccessNodeCompat;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,7 +91,7 @@ public abstract class TreeBuilder {
             try {
                 child = root.getChild(i);
                 childNodes.add(child);
-                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child);
+                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child.getViewIdResourceName());
                 // TODO: For now to test, the objects are forcely stores in test sample variales
                 if (child.getText() != null && child.getText().toString().equals(GlobalConstants.HOMETEXT)) {
                     GlobalConstants.currentNodeCompat_homeButton = AccessibilityNodeInfoCompat.obtain(child);
@@ -110,8 +113,16 @@ public abstract class TreeBuilder {
                 }
                 if (child.getText() != null && child.getText().toString().equals(GlobalConstants.MIN36TEXT)) {
                     GlobalConstants.currentNodeCompat_MIN36 = AccessibilityNodeInfoCompat.obtain(child);
-                    Log.i(GlobalConstants.LOGTAG, "GlobalConstants.currentNodeCompat_MIN36: "+ GlobalConstants.currentNodeCompat_MIN36);
+                    Log.i(GlobalConstants.LOGTAG, "GlobalConstants.currentNodeCompat_MIN36: " + GlobalConstants.currentNodeCompat_MIN36);
                 }
+
+                if (child.getViewIdResourceName() != null
+                        && child.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_PLAY_PAUSE)) {
+                    GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE = AccessibilityNodeInfoCompat.obtain(child);
+                    Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_PLAY_PAUSE" + GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE);
+
+                }
+
                 int subChildCount = child.getChildCount();
                 for (int j = 0; j < subChildCount; j++) {
                     secondchild = child.getChild(j);
@@ -128,8 +139,16 @@ public abstract class TreeBuilder {
                         GlobalConstants.currentNodeCompat_OverviewMain = AccessibilityNodeInfoCompat.obtain(secondchild);
                     }
 
-                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
-//                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_MUSIC)) {
+                        GlobalConstants.currentNodeCompat_AOSP_MUSIC = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_MUSIC" + GlobalConstants.currentNodeCompat_AOSP_MUSIC);
+
+                    }
+
+
+
+                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
 
                 }
 //                Rect bounds = getBoundsInternal(child);
