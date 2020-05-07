@@ -113,6 +113,10 @@ public class SwitchAccessService extends AccessibilityService {
         instance = this;
         // get the active window information
         Log.i(LOG_TAG, "onServiceConnected.... ");
+
+        new MainTreeBuilder(this).addWindowListToTree(
+                SwitchAccessWindowInfo.convertZOrderWindowList(
+                        AccessibilityServiceCompatUtils.getWindows(this)));
     }
 
 
