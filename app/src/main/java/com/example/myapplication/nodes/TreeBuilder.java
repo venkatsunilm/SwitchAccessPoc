@@ -146,8 +146,19 @@ public abstract class TreeBuilder {
 
                     }
 
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_MAPS)) {
+                        GlobalConstants.currentNodeCompat_AOSP_MAPS = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_MAPS" + GlobalConstants.currentNodeCompat_AOSP_MAPS);
 
+                    }
 
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_HOME)) {
+                        GlobalConstants.currentNodeCompat_AOSP_HOME = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_HOME" + GlobalConstants.currentNodeCompat_AOSP_HOME);
+
+                    }
                     Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
 
                 }

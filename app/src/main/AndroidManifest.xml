@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     coreApp="true"
     package="com.example.myapplication"
+    android:sharedUserId="com.google.android.accessibility.switchaccess.uid"
     tools:ignore="ProtectedPerissions">
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
