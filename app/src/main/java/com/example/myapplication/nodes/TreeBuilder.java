@@ -91,7 +91,7 @@ public abstract class TreeBuilder {
             try {
                 child = root.getChild(i);
                 childNodes.add(child);
-                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child.getViewIdResourceName());
+                Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat firstChild: " + i + " :" + child);
                 // TODO: For now to test, the objects are forcely stores in test sample variales
                 if (child.getText() != null && child.getText().toString().equals(GlobalConstants.HOMETEXT)) {
                     GlobalConstants.currentNodeCompat_homeButton = AccessibilityNodeInfoCompat.obtain(child);
@@ -146,9 +146,22 @@ public abstract class TreeBuilder {
 
                     }
 
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.HMI_THREE)) {
+                        GlobalConstants.currentNodeCompat_HMI_THREE = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_THREE" + GlobalConstants.currentNodeCompat_HMI_THREE);
+
+                    }
+
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.HMI_TWO)) {
+                        GlobalConstants.currentNodeCompat_HMI_TWO = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_TWO" + GlobalConstants.currentNodeCompat_HMI_TWO);
+
+                    }
 
 
-                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
+                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
 
                 }
 //                Rect bounds = getBoundsInternal(child);

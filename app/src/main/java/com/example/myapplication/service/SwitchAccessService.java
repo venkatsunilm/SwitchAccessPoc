@@ -6,6 +6,7 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
@@ -114,6 +115,24 @@ public class SwitchAccessService extends AccessibilityService {
         // get the active window information
         Log.i(LOG_TAG, "onServiceConnected.... ");
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                buildTree();
+            }
+        }, 5000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_THREE Focused...");
+                GlobalConstants.currentNodeCompat_HMI_THREE.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+            }
+        }, 10000);
+
+    }
+
+    private void buildTree() {
         new MainTreeBuilder(this).addWindowListToTree(
                 SwitchAccessWindowInfo.convertZOrderWindowList(
                         AccessibilityServiceCompatUtils.getWindows(this)));
@@ -268,6 +287,7 @@ public class SwitchAccessService extends AccessibilityService {
                     GlobalConstants.currentNodeCompat_previousButton.
                             performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
                 }
+
                 break;
             case KeyEvent.KEYCODE_DPAD_CENTER:
                 break;

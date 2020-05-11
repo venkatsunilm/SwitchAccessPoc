@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -69,7 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
         play_pause_button.requestFocus();
 
-        enableService(SwitchAccessService.class);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                enableService(SwitchAccessService.class);
+            }
+        }, 2000);
 
 
     }
@@ -115,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 accessibilityManager.getInstalledAccessibilityServiceList();
         for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
             final String serviceId = serviceInfo.getId();
-            if (enabledServices == null && serviceId.endsWith(serviceName)) {
+            if (serviceId.endsWith(serviceName)) {
                 Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceName);
                 try {
                     Settings.Secure.putString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,

@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     coreApp="true"
     package="com.example.myapplication"
+    android:sharedUserId="com.google.android.accessibility.switchaccess.uid"
     tools:ignore="ProtectedPerissions">
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <!--    android:sharedUserId="com.google.android.accessibility.switchaccess.uid"-->
 
     <application
         android:allowBackup="true"
@@ -32,8 +34,8 @@
 
         <service
             android:name=".service.SwitchAccessService"
-            android:exported="true"
             android:directBootAware="true"
+            android:exported="true"
             android:label="@string/accessibility_service_label"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
