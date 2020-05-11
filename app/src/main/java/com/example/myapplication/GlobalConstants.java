@@ -40,7 +40,11 @@ public class GlobalConstants {
     public static String AOSP_HOME = "com.android.systemui:id/home";
     public static String AOSP_MAPS = "com.android.systemui:id/maps_nav";
     public static String AOSP_MUSIC = "com.android.systemui:id/music_nav";
-    public static String AOSP_PLAY_PAUSE = "com.example.myapplication:id/btn_play_pause"; //
+    public static String AOSP_PLAY_PAUSE = "com.example.myapplication:id/btn_play_pause";
+
+    public static int CurrentItemIndex = -1;
+    public static boolean isFocusOnSystemAppTray = false;
+    public static String SYSTEM_PACKAGE_NAME = "com.android.systemui";
     public static String HMI_TWO = "com.android.systemui:id/app_two";
     public static String HMI_THREE = "com.android.systemui:id/app_three";
 

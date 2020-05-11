@@ -147,12 +147,11 @@ public abstract class TreeBuilder {
                     }
 
                     if (secondchild.getViewIdResourceName() != null
-                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.HMI_THREE)) {
-                        GlobalConstants.currentNodeCompat_HMI_THREE = AccessibilityNodeInfoCompat.obtain(secondchild);
-                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_THREE" + GlobalConstants.currentNodeCompat_HMI_THREE);
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_MAPS)) {
+                        GlobalConstants.currentNodeCompat_AOSP_MAPS = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_MAPS" + GlobalConstants.currentNodeCompat_AOSP_MAPS);
 
                     }
-
                     if (secondchild.getViewIdResourceName() != null
                             && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.HMI_TWO)) {
                         GlobalConstants.currentNodeCompat_HMI_TWO = AccessibilityNodeInfoCompat.obtain(secondchild);
@@ -162,6 +161,13 @@ public abstract class TreeBuilder {
 
 
                     Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild);
+                    if (secondchild.getViewIdResourceName() != null
+                            && secondchild.getViewIdResourceName().toString().equals(GlobalConstants.AOSP_HOME)) {
+                        GlobalConstants.currentNodeCompat_AOSP_HOME = AccessibilityNodeInfoCompat.obtain(secondchild);
+                        Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_AOSP_HOME" + GlobalConstants.currentNodeCompat_AOSP_HOME);
+
+                    }
+                    Log.i(GlobalConstants.LOGTAG, "AccessibilityNodeInfoCompat secondchild: " + j + " :" + secondchild.getViewIdResourceName());
 
                 }
 //                Rect bounds = getBoundsInternal(child);
