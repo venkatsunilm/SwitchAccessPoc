@@ -180,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
 //                Using L key to do lLEFT ROTATE traversal
             case KeyEvent.KEYCODE_L:
             case KeyEvent.KEYCODE_BUTTON_L1:
+                if (GlobalConstants.isFocusOnSystemAppTray) {
+                    Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray True");
+                    return false;
+                }
 //                Toast.makeText(this, "KEYCODE_L/KEYCODE_BUTTON_L1", Toast.LENGTH_SHORT).show();
 //                TODO: Refactoring to be done, this is a test sample
                 switch (getCurrentFocus().getId()) {
@@ -225,8 +229,9 @@ public class MainActivity extends AppCompatActivity {
             case KeyEvent.KEYCODE_R:
             case KeyEvent.KEYCODE_BUTTON_R1:
 //                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
-                if (event.getAction() == KeyEvent.ACTION_UP) {
-                    return super.dispatchKeyEvent(event);
+                if (GlobalConstants.isFocusOnSystemAppTray) {
+                    Log.i(GlobalConstants.LOGTAG, "Main activity isFocusOnSystemAppTray True");
+                    return false;
                 }
 //                TODO: Refactoring to be done, this is a test sample
                 switch (getCurrentFocus().getId()) {
