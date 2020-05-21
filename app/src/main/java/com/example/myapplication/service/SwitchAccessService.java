@@ -115,16 +115,10 @@ public class SwitchAccessService extends AccessibilityService {
         // get the active window information
         Log.i(LOG_TAG, "onServiceConnected.... ");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                buildTree();
-            }
-        }, 5000);
-
+        initialize();
     }
 
-    private void buildTree(){
+    private void initialize() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -142,11 +136,11 @@ public class SwitchAccessService extends AccessibilityService {
 
     }
 
-//    private void buildTree() {
-//        new MainTreeBuilder(this).addWindowListToTree(
-//                SwitchAccessWindowInfo.convertZOrderWindowList(
-//                        AccessibilityServiceCompatUtils.getWindows(this)));
-//    }
+    private void buildTree() {
+        new MainTreeBuilder(this).addWindowListToTree(
+                SwitchAccessWindowInfo.convertZOrderWindowList(
+                        AccessibilityServiceCompatUtils.getWindows(this)));
+    }
 
     private static final HashMap<Class, WeakReference<SwitchAccessService>>
             sInstances = new HashMap<>();
@@ -231,6 +225,7 @@ public class SwitchAccessService extends AccessibilityService {
 
         switch (event.getKeyCode()) {
             case KeyEvent.KEYCODE_DPAD_LEFT:
+            case 2602:
                 Toast.makeText(this, "KEYCODE_DPAD_LEFT", Toast.LENGTH_SHORT).show();
 //                GlobalConstants.currentNodeCompat_phoneButton.
 //                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
@@ -246,6 +241,7 @@ public class SwitchAccessService extends AccessibilityService {
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_UP:
+            case 2604:
                 Toast.makeText(this, "KEYCODE_DPAD_UP", Toast.LENGTH_SHORT).show();
                 // Get the focused node
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
@@ -265,6 +261,7 @@ public class SwitchAccessService extends AccessibilityService {
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
+            case 2605:
                 Toast.makeText(this, "KEYCODE_DPAD_DOWN", Toast.LENGTH_SHORT).show();
                 // Get the focused node
                 // check the package name or Parent layout name or specific node name or its id as per the requirement:
@@ -278,6 +275,7 @@ public class SwitchAccessService extends AccessibilityService {
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
+            case 2603:
 //                Toast.makeText(this, "KEYCODE_DPAD_RIGHT", Toast.LENGTH_SHORT).show();
 
 //                GlobalConstants.currentNodeCompat_previousButton.
@@ -334,7 +332,7 @@ public class SwitchAccessService extends AccessibilityService {
                 performGlobalAction(GLOBAL_ACTION_HOME);
                 break;
             case KeyEvent.KEYCODE_BUTTON_L1:
-                Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent KEYCODE_BUTTON_L1 pressed...GlobalConstants.CurrentItemIndex "+ GlobalConstants.CurrentItemIndex);
+                Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent KEYCODE_BUTTON_L1 pressed...GlobalConstants.CurrentItemIndex " + GlobalConstants.CurrentItemIndex);
 
                 if (!GlobalConstants.isFocusOnSystemAppTray) {
                     Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray false");
@@ -376,7 +374,7 @@ public class SwitchAccessService extends AccessibilityService {
             GlobalConstants.CurrentItemIndex = event.getCurrentItemIndex();
             GlobalConstants.isFocusOnSystemAppTray = true;
 
-            Log.i("Venk", "GlobalConstants.CurrentItemIndex : " + GlobalConstants.CurrentItemIndex );
+            Log.i("Venk", "GlobalConstants.CurrentItemIndex : " + GlobalConstants.CurrentItemIndex);
         }
 
         if (eventProcessor != null) {
