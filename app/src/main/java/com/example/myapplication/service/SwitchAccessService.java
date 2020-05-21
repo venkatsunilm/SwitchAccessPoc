@@ -122,16 +122,6 @@ public class SwitchAccessService extends AccessibilityService {
             }
         }, 5000);
 
-    }
-
-    private void buildTree(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                buildTree();
-            }
-        }, 5000);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -142,11 +132,12 @@ public class SwitchAccessService extends AccessibilityService {
 
     }
 
-//    private void buildTree() {
-//        new MainTreeBuilder(this).addWindowListToTree(
-//                SwitchAccessWindowInfo.convertZOrderWindowList(
-//                        AccessibilityServiceCompatUtils.getWindows(this)));
-//    }
+    private void buildTree() {
+        new MainTreeBuilder(this).addWindowListToTree(
+                SwitchAccessWindowInfo.convertZOrderWindowList(
+                        AccessibilityServiceCompatUtils.getWindows(this)));
+    }
+
 
     private static final HashMap<Class, WeakReference<SwitchAccessService>>
             sInstances = new HashMap<>();
@@ -333,21 +324,6 @@ public class SwitchAccessService extends AccessibilityService {
 //                navigation icon using global available options for system ui by default.
                 performGlobalAction(GLOBAL_ACTION_HOME);
                 break;
-            case KeyEvent.KEYCODE_BUTTON_L1:
-                Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent KEYCODE_BUTTON_L1 pressed...GlobalConstants.CurrentItemIndex "+ GlobalConstants.CurrentItemIndex);
-
-                if (!GlobalConstants.isFocusOnSystemAppTray) {
-                    Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray false");
-                    return false;
-                }
-
-                switch (GlobalConstants.CurrentItemIndex) {
-                    case 5:
-                        GlobalConstants.currentNodeCompat_AOSP_HOME.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                        Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent CurrentItemIndex 5");
-                        break;
-                }
-                break;
         }
 
         return false;
@@ -364,20 +340,7 @@ public class SwitchAccessService extends AccessibilityService {
         }
 
 //        Log.i("Venk", "getPackageName: " + event.getPackageName());
-        Log.i("Venk", "onAccessibilityEvent getViewIdResourceName: " + source.getViewIdResourceName());
-        Log.i("Venk", "onAccessibilityEvent getPackageName: " + source.getPackageName());
-        Log.i("Venk", "onAccessibilityEvent getCurrentItemIndex: " + event.getCurrentItemIndex());
-        Log.i("Venk", "onAccessibilityEvent getFromIndex: " + event.getFromIndex());
-        Log.i("Venk", "onAccessibilityEvent getEventType: " + event.getEventType());
-
-        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED &&
-                source.getPackageName().toString().equals(GlobalConstants.SYSTEM_PACKAGE_NAME) &&
-                source.getViewIdResourceName() != null) {
-            GlobalConstants.CurrentItemIndex = event.getCurrentItemIndex();
-            GlobalConstants.isFocusOnSystemAppTray = true;
-
-            Log.i("Venk", "GlobalConstants.CurrentItemIndex : " + GlobalConstants.CurrentItemIndex );
-        }
+//        Log.i("Venk", "getViewIdResourceName: " + source.getViewIdResourceName());
 
         if (eventProcessor != null) {
             eventProcessor.onAccessibilityEvent(event);
