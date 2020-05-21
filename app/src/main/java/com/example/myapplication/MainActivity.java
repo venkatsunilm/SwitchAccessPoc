@@ -66,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Make the activity listen to policy change events
 //        CombinedPolicyProvider.get().addPolicyChangeListener(this);
-
-
         play_pause_button.requestFocus();
 
 
