@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Make the activity listen to policy change events
 //        CombinedPolicyProvider.get().addPolicyChangeListener(this);
+
+
         play_pause_button.requestFocus();
 
 
@@ -75,15 +77,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 enableService(SwitchAccessService.class);
             }
-        }, 2000);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                enableService(SwitchAccessService.class);
-            }
         }, 5000);
-
-
     }
 
     @Nullable
@@ -184,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 //                Using L key to do lLEFT ROTATE traversal
             case KeyEvent.KEYCODE_L:
             case KeyEvent.KEYCODE_BUTTON_L1:
+            case 2600:
                 if (GlobalConstants.isFocusOnSystemAppTray) {
                     Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray True");
                     return false;
@@ -232,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case KeyEvent.KEYCODE_R:
             case KeyEvent.KEYCODE_BUTTON_R1:
+            case 66:
 //                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
                 if (GlobalConstants.isFocusOnSystemAppTray) {
                     Log.i(GlobalConstants.LOGTAG, "Main activity isFocusOnSystemAppTray True");
