@@ -119,14 +119,18 @@ public class SwitchAccessService extends AccessibilityService {
             @Override
             public void run() {
                 buildTree();
+//                GlobalConstants.currentNodeCompat_playPauseButton.
+//                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE.
+//                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
             }
         }, 5000);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_THREE Focused...");
-                GlobalConstants.currentNodeCompat_HMI_THREE.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                Log.i(GlobalConstants.LOGTAG, "currentNodeCompat_HMI_THREE Focused...");
+                GlobalConstants.currentNodeCompat_previousButton.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
             }
         }, 10000);
 

@@ -44,4 +44,9 @@ public class GlobalConstants {
     public static String HMI_TWO = "com.android.systemui:id/app_two";
     public static String HMI_THREE = "com.android.systemui:id/app_three";
 
+    public static int CurrentItemIndex = -1;
+    public static boolean isFocusOnSystemAppTray = false;
+    public static String SYSTEM_PACKAGE_NAME = "com.android.systemui";
+
+
 }

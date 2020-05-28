@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Make the activity listen to policy change events
 //        CombinedPolicyProvider.get().addPolicyChangeListener(this);
-        play_pause_button.requestFocus();
 
 
 
@@ -74,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 enableService(SwitchAccessService.class);
+                next_button.requestFocus();
+                next_button.setFocusedByDefault(true);
             }
         }, 5000);
     }
