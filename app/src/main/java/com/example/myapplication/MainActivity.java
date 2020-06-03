@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String COMPONENT_NAME_SEPARATOR = ":";
     private Button play_pause_button, next_button, previous_button,
             now_playing_button, Music_menu_button, Settings_button,
-            more_button, home_button, music_button, phone_button, back_button, overview_button, TED_button, NAV_button;
+            more_button, home_button, music_button, phone_button, back_button,
+            overview_button, TED_button, NAV_button,New_button;
     private AccessibilityManager accessibilityManager;
 
     @Override
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         play_pause_button = (Button) findViewById(R.id.btn_play_pause);
         next_button = (Button) findViewById(R.id.btn_next);
+        New_button = (Button)findViewById(R.id.button_next);
         previous_button = (Button) findViewById(R.id.btn_previous);
         now_playing_button = (Button) findViewById(R.id.btn_now_playing);
         Music_menu_button = (Button) findViewById(R.id.btn_music_menu);
@@ -67,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
         // Make the activity listen to policy change events
 //        CombinedPolicyProvider.get().addPolicyChangeListener(this);
 
+        New_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,SecondActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         new Handler().postDelayed(new Runnable() {
@@ -78,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 5000);
     }
+
 
     @Nullable
     @Override
@@ -228,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
             case KeyEvent.KEYCODE_BUTTON_R1:
             case 66:
 //                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
-                if (GlobalConstants.isFocusOnSystemAppTray) {
+           if (GlobalConstants.isFocusOnSystemAppTray) {
                     Log.i(GlobalConstants.LOGTAG, "Main activity isFocusOnSystemAppTray True");
                     return false;
                 }

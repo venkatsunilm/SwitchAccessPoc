@@ -1,90 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/left_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/btn_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/home"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toTopOf="@id/btn_music"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_music"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/musicButton"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toTopOf="@id/btn_phone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_home" />
-
-        <Button
-            android:id="@+id/btn_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/phoneButton"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toTopOf="@id/btn_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_music" />
-
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/backButton"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toTopOf="@id/btn_overview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_phone" />
-
-        <Button
-            android:id="@+id/btn_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="60dp"
-            android:background="@drawable/btn_background"
-            android:text="@string/overviewButton"
-            android:textAllCaps="false"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_back" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/left_layout"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
@@ -110,11 +34,11 @@
             app:layout_constraintLeft_toRightOf="@id/btn_now_playing"
             app:layout_constraintTop_toTopOf="parent" />
         <Button
-            android:id="@+id/button_next"
+            android:id="@+id/button_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_background"
-            android:text="@string/next_button"
+            android:text="@string/back_button"
             app:layout_constraintStart_toEndOf="@id/btn_music_menu"
             app:layout_constraintEnd_toStartOf="@id/btn_Settings"
             app:layout_constraintTop_toTopOf="@id/btn_music_menu"
@@ -222,7 +146,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/left_layout">
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btn_TED"
@@ -249,4 +173,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
