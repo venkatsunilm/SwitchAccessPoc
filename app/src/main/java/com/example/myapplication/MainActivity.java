@@ -9,15 +9,12 @@ import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.myapplication.service.SwitchAccessService;
 
 import java.util.List;
 
@@ -61,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
         TED_button = (Button) findViewById(R.id.btn_TED);
         NAV_button = (Button) findViewById(R.id.btn_NAV);
         accessibilityManager = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
-        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager);
-        Log.i(GlobalConstants.LOGTAG, "isEnabled: " + accessibilityManager.isEnabled());
-        Log.i(GlobalConstants.LOGTAG, "getInstalledAccessibilityServiceList: " + accessibilityManager.getInstalledAccessibilityServiceList());
-
         accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener() {
 
             @Override
@@ -72,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY addAccessibilityStateChangeListener onAccessibilityStateChanged  222");
             }
         });
-
-        // Make the activity listen to policy change events
-//        CombinedPolicyProvider.get().addPolicyChangeListener(this);
 
         play_pause_button.requestFocus();
 
@@ -90,12 +80,10 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                enableService(SwitchAccessService.class);
+                enableService();
             }
         }, 1000);
-
     }
-
 
     @Nullable
     @Override
@@ -118,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private static final boolean DEBUG = false;
     public static final int TIMEOUT_SERVICE_ENABLE = DEBUG ? Integer.MAX_VALUE : 10000;
 
-    public void enableService(
-            Class clazz) {
+    public void enableService() {
         final String serviceName = SERVICE_NAME/*clazz.getSimpleName()*/;
 //        final Context context = instrumentation.getContext();
         final String enabledServices = Settings.Secure.getString(
@@ -149,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-
         Log.i(GlobalConstants.LOGTAG, "manager.isEnabled(): " + accessibilityManager.isEnabled());
     }
 
