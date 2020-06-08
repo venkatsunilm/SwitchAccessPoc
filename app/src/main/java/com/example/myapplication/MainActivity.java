@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +8,10 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,11 +23,21 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String SERVICE_NAME = "MFCService";
     private static final String COMPONENT_NAME_SEPARATOR = ":";
-    private Button play_pause_button, next_button, previous_button,
-            now_playing_button, Music_menu_button, Settings_button,
-            more_button, home_button, music_button, phone_button, back_button,
-            overview_button, TED_button, NAV_button,New_button;
+    private Button play_pause_button;
+    private Button next_button;
+    private Button previous_button;
+    private Button now_playing_button;
+    private Button Music_menu_button;
+    private Button Settings_button;
+    private Button more_button;
+    private Button home_button;
+    private Button phone_button;
+    private Button overview_button;
+    private Button TED_button;
+    private Button NAV_button;
+    private Button New_button;
     private AccessibilityManager accessibilityManager;
 
     @Override
@@ -40,23 +47,23 @@ public class MainActivity extends AppCompatActivity {
 
         play_pause_button = (Button) findViewById(R.id.btn_play_pause);
         next_button = (Button) findViewById(R.id.btn_next);
-        New_button = (Button)findViewById(R.id.button_next);
+        New_button = (Button) findViewById(R.id.button_next_screen);
         previous_button = (Button) findViewById(R.id.btn_previous);
         now_playing_button = (Button) findViewById(R.id.btn_now_playing);
         Music_menu_button = (Button) findViewById(R.id.btn_music_menu);
         Settings_button = (Button) findViewById(R.id.btn_Settings);
         more_button = (Button) findViewById(R.id.btn_more);
         home_button = (Button) findViewById(R.id.btn_home);
-        music_button = (Button) findViewById(R.id.btn_music);
+        Button music_button = (Button) findViewById(R.id.btn_music);
         phone_button = (Button) findViewById(R.id.btn_phone);
-        back_button = (Button) findViewById(R.id.btn_back);
+        Button back_button = (Button) findViewById(R.id.btn_back);
         overview_button = (Button) findViewById(R.id.btn_overview);
         TED_button = (Button) findViewById(R.id.btn_TED);
         NAV_button = (Button) findViewById(R.id.btn_NAV);
         accessibilityManager = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
         Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager);
-        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
-        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.getInstalledAccessibilityServiceList());
+        Log.i(GlobalConstants.LOGTAG, "isEnabled: " + accessibilityManager.isEnabled());
+        Log.i(GlobalConstants.LOGTAG, "getInstalledAccessibilityServiceList: " + accessibilityManager.getInstalledAccessibilityServiceList());
 
         accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener() {
 
@@ -69,10 +76,12 @@ public class MainActivity extends AppCompatActivity {
         // Make the activity listen to policy change events
 //        CombinedPolicyProvider.get().addPolicyChangeListener(this);
 
+        play_pause_button.requestFocus();
+
         New_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,SecondActivity.class);
+                Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                 startActivity(intent);
             }
         });
@@ -82,10 +91,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 enableService(SwitchAccessService.class);
-                next_button.requestFocus();
-                next_button.setFocusedByDefault(true);
             }
-        }, 5000);
+        }, 1000);
+
     }
 
 
@@ -107,13 +115,12 @@ public class MainActivity extends AppCompatActivity {
         play_pause_button.requestFocus();
     }
 
-
     private static final boolean DEBUG = false;
     public static final int TIMEOUT_SERVICE_ENABLE = DEBUG ? Integer.MAX_VALUE : 10000;
 
     public void enableService(
             Class clazz) {
-        final String serviceName = clazz.getSimpleName();
+        final String serviceName = SERVICE_NAME/*clazz.getSimpleName()*/;
 //        final Context context = instrumentation.getContext();
         final String enabledServices = Settings.Secure.getString(
                 getContentResolver(),
@@ -121,15 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i(GlobalConstants.LOGTAG, "enabledServices: " + enabledServices);
         if (enabledServices != null) {
-//            assertFalse("Service is already enabled", enabledServices.contains(serviceName));
             Log.i(GlobalConstants.LOGTAG, "Service already enabled .......... **************** ");
+            return;
         }
-//        final AccessibilityManager manager = (AccessibilityManager) getSystemService(
-//                ACCESSIBILITY_SERVICE);
         final List<AccessibilityServiceInfo> serviceInfos =
                 accessibilityManager.getInstalledAccessibilityServiceList();
         for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
             final String serviceId = serviceInfo.getId();
+            Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceId);
             if (serviceId.endsWith(serviceName)) {
                 Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceName);
                 try {
@@ -145,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.i(GlobalConstants.LOGTAG, "manager.isEnabled(): " + accessibilityManager.isEnabled());
-//        throw new RuntimeException("Accessibility service " + serviceName + " not found");
     }
 
 
@@ -158,165 +163,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_UP) {
-            return false;
-        }
-
-        Log.i(GlobalConstants.LOGTAG, "Main Activity dispatchKeyEvent keycode: " + event.getKeyCode());
-
-        switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_K:
-//            case KeyEvent.KEYCODE_BUTTON_B:
-                Intent intent = new Intent(this, SwitchAccessService.class);
-                startService(intent);
-                Log.i(GlobalConstants.LOGTAG, "Service started ... intent: " + intent);
-                Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
-                break;
-            case KeyEvent.KEYCODE_Z:
-                play_pause_button.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
-                Log.i(GlobalConstants.LOGTAG, "  getEnabledAccessibilityServiceList: " +
-                        accessibilityManager.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC));
-
-                disableAllServices();
-
-                Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.isEnabled());
-
-                break;
-//                Using L key to do lLEFT ROTATE traversal
-            case KeyEvent.KEYCODE_L:
-            case KeyEvent.KEYCODE_BUTTON_L1:
-            case 2600:
-                if (GlobalConstants.isFocusOnSystemAppTray) {
-                    Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray True");
-                    return false;
-                }
-//                Toast.makeText(this, "KEYCODE_L/KEYCODE_BUTTON_L1", Toast.LENGTH_SHORT).show();
-//                TODO: Refactoring to be done, this is a test sample
-                switch (getCurrentFocus().getId()) {
-                    case R.id.btn_play_pause:
-                        previous_button.requestFocus();
-                        break;
-                    case R.id.btn_previous:
-                        Music_menu_button.requestFocus();
-                        break;
-                    case R.id.btn_music_menu:
-                        now_playing_button.requestFocus();
-                        break;
-                    case R.id.btn_Settings:
-                        more_button.requestFocus();
-                        break;
-                    case R.id.btn_more:
-                        next_button.requestFocus();
-                        break;
-                    case R.id.btn_next:
-                        play_pause_button.requestFocus();
-                        break;
-                    case R.id.btn_music:
-                        home_button.requestFocus();
-                        break;
-                    case R.id.btn_phone:
-                        music_button.requestFocus();
-                        break;
-                    case R.id.btn_back:
-                        phone_button.requestFocus();
-                        break;
-                    case R.id.btn_overview:
-                        back_button.requestFocus();
-                        break;
-                    case R.id.btn_TED:
-                        NAV_button.requestFocus();
-                        break;
-                    case R.id.btn_NAV:
-                        TED_button.requestFocus();
-                        break;
-                }
-
-                break;
-            case KeyEvent.KEYCODE_R:
-            case KeyEvent.KEYCODE_BUTTON_R1:
-            case 66:
-//                Toast.makeText(this, "KEYCODE_R/KEYCODE_BUTTON_R1", Toast.LENGTH_SHORT).show();
-           if (GlobalConstants.isFocusOnSystemAppTray) {
-                    Log.i(GlobalConstants.LOGTAG, "Main activity isFocusOnSystemAppTray True");
-                    return false;
-                }
-//                TODO: Refactoring to be done, this is a test sample
-                switch (getCurrentFocus().getId()) {
-                    case R.id.btn_play_pause:
-                        next_button.requestFocus();
-                        break;
-                    case R.id.btn_next:
-                        more_button.requestFocus();
-                        break;
-                    case R.id.btn_more:
-                        Settings_button.requestFocus();
-                        break;
-                    case R.id.btn_now_playing:
-                        Music_menu_button.requestFocus();
-                        break;
-                    case R.id.btn_music_menu:
-                        previous_button.requestFocus();
-                        break;
-                    case R.id.btn_previous:
-                        play_pause_button.requestFocus();
-                        break;
-                    case R.id.btn_home:
-                        music_button.requestFocus();
-                        break;
-                    case R.id.btn_music:
-                        phone_button.requestFocus();
-                        break;
-                    case R.id.btn_phone:
-                        back_button.requestFocus();
-                        break;
-                    case R.id.btn_back:
-                        overview_button.requestFocus();
-                        break;
-                    case R.id.btn_TED:
-                        NAV_button.requestFocus();
-                        break;
-                    case R.id.btn_NAV:
-                        TED_button.requestFocus();
-                        break;
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_UP:
-                break;
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                break;
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-                break;
-
-            case KeyEvent.KEYCODE_P: // Create an instance of Accessibility manager.
-                Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager.getInstalledAccessibilityServiceList());
-                break;
-        }
-        return false;
-    }
-
-//    @Override
-//    public void onPointerCaptureChanged(boolean hasCapture) {
-//
-//    }
-//
-//    @Override
-//    public void onAccessibilityStateChanged(boolean enabled) {
-//        Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY onAccessibilityStateChanged  1111");
-//    }
-
-    private void sendAccessibilityEvent(int eventType, int virtualId) {
-        AccessibilityEvent event = AccessibilityEvent.obtain();
-        event.setEventType(eventType);
-//        event.setSource(this, virtualId);
-        event.setEnabled(true);
-        event.setPackageName(getPackageName());
-        Log.v(GlobalConstants.LOGTAG, "sendAccessibilityEvent(" + eventType + ", " + virtualId + "): " + event);
-        getSystemService(AccessibilityManager.class).sendAccessibilityEvent(event);
-    }
 }

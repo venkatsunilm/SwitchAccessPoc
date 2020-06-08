@@ -108,8 +108,7 @@ public class SwitchAccessService extends AccessibilityService {
 
 //        endregion
 
-        uiChangeStabilizer = new UiChangeStabilizer();
-        eventProcessor = new UiChangeDetector(uiChangeStabilizer);
+        eventProcessor = new UiChangeDetector();
 
         instance = this;
         // get the active window information
@@ -215,130 +214,145 @@ public class SwitchAccessService extends AccessibilityService {
         return false;
     }
 
-    @Override
-    protected boolean onKeyEvent(KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_UP) {
-            return false;
-        }
-
-        Log.i(GlobalConstants.LOGTAG, "Switch access service: " + event.getKeyCode());
-        AccessibilityNodeInfoCompat currentFocusedNode = AccessibilityServiceCompatUtils.getInputFocusedNode(this);
-        if (currentFocusedNode != null) {
-            Log.i(GlobalConstants.LOGTAG, "Service currentFocusedNode text " + currentFocusedNode.getViewIdResourceName());
-        }
-
-        switch (event.getKeyCode()) {
-            case KeyEvent.KEYCODE_DPAD_LEFT:
-            case 2602:
-                Toast.makeText(this, "KEYCODE_DPAD_LEFT", Toast.LENGTH_SHORT).show();
-//                GlobalConstants.currentNodeCompat_phoneButton.
-//                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                // Get the focused node
-                // check the package name or Parent layout name or specific node name or its id as per the requirement:
-                // to test, packageName: com.example.myapplication;
-                // TODO: Code refactoring and store hardcoded values into constants
-                if (validateCurrentMusicNode(currentFocusedNode)
-                        || validateCurrentAppTray(currentFocusedNode)
-                        || validateCurrentTEDHOURButton(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_phoneButton.
-                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_UP:
-            case 2604:
-                Toast.makeText(this, "KEYCODE_DPAD_UP", Toast.LENGTH_SHORT).show();
-                // Get the focused node
-                // check the package name or Parent layout name or specific node name or its id as per the requirement:
-                // to test, packageName: com.example.myapplication;
-                // TODO: Code refactoring and store hardcoded values into constants
-                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
-                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
-                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
-
-                if (validateCurrentMusicNode(currentFocusedNode)
-                        || validateCurrentTEDHOURButton(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_playPauseButton.
-                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                } else if (validateCurrentAppTray(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_phoneButton.
-                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-            case 2605:
-                Toast.makeText(this, "KEYCODE_DPAD_DOWN", Toast.LENGTH_SHORT).show();
-                // Get the focused node
-                // check the package name or Parent layout name or specific node name or its id as per the requirement:
-                // to test, packageName: com.example.myapplication;
-                // TODO: Code refactoring and store hardcoded values into constants
-//                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode.getParent());
-                if (validateCurrentMusicNode(currentFocusedNode)
-                        || validateCurrentAppTray(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_MIN36.
-                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_RIGHT:
-            case 2603:
-//                Toast.makeText(this, "KEYCODE_DPAD_RIGHT", Toast.LENGTH_SHORT).show();
-
-//                GlobalConstants.currentNodeCompat_previousButton.
-//                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-
-                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
-                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
-                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
-
-                // Get the focused node
-                // check the package name or Parent layout name or specific node name or its id as per the requirement:
-                // to test, packageName: com.example.myapplication;
-                // TODO: Code refactoring and store hardcoded values into constants
-                if (validateCurrentAppTray(currentFocusedNode)
-                        || validateCurrentMusicNode(currentFocusedNode)) {
-                    GlobalConstants.currentNodeCompat_previousButton.
-                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                }
-
-                break;
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-                break;
-            case KeyEvent.KEYCODE_A:
-            case KeyEvent.KEYCODE_BUTTON_L2:
-                Toast.makeText(this, "KEYCODE_A/KEYCODE_BUTTON_L2", Toast.LENGTH_SHORT).show();
-                // Initialize and trace screen elements.
-                // TODO: Move this to some constructor in future
-                new MainTreeBuilder(this).addWindowListToTree(
-                        SwitchAccessWindowInfo.convertZOrderWindowList(
-                                AccessibilityServiceCompatUtils.getWindows(this)));
-                break;
-            case KeyEvent.KEYCODE_S:
-            case KeyEvent.KEYCODE_BUTTON_R2:
-                Toast.makeText(this, "KEYCODE_S/KEYCODE_BUTTON_R2", Toast.LENGTH_SHORT).show();
-//                TO set focus to play pause button forcefully for testing purpose
-                GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                break;
-            case KeyEvent.KEYCODE_D:
-            case KeyEvent.KEYCODE_BUTTON_X:
-                Toast.makeText(this, "KEYCODE_D/KEYCODE_BUTTON_B", Toast.LENGTH_SHORT).show();
-//                To set focus to Overview app tray button forcefully for testing purpose
-                GlobalConstants.currentNodeCompat_AOSP_MUSIC.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-                break;
-            case KeyEvent.KEYCODE_Q:
-            case KeyEvent.KEYCODE_BUTTON_B:
-                Toast.makeText(this, "KEYCODE_Q/KEYCODE_BUTTON_X", Toast.LENGTH_SHORT).show();
-//                To perform a click action on the overview button of the phone app tray navigation icon.
-                GlobalConstants.currentNodeCompat_AOSP_HOME.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
-                break;
-            case KeyEvent.KEYCODE_W:
-                Toast.makeText(this, "KEYCODE_W", Toast.LENGTH_SHORT).show();
-//                To perform a click action on the overview button of the phone app tray
-//                navigation icon using global available options for system ui by default.
-                performGlobalAction(GLOBAL_ACTION_HOME);
-                break;
-        }
-
-        return false;
-    }
+//    @Override
+//    protected boolean onKeyEvent(KeyEvent event) {
+//        if (event.getAction() == KeyEvent.ACTION_UP) {
+//            return false;
+//        }
+//
+//        Log.i(GlobalConstants.LOGTAG, "My Application Switch access service: " + event.getKeyCode());
+//        AccessibilityNodeInfoCompat currentFocusedNode = AccessibilityServiceCompatUtils.getInputFocusedNode(this);
+//        if (currentFocusedNode != null) {
+//            Log.i(GlobalConstants.LOGTAG, "Service currentFocusedNode text " + currentFocusedNode.getViewIdResourceName());
+//        }
+//
+//        switch (event.getKeyCode()) {
+//            case KeyEvent.KEYCODE_DPAD_LEFT:
+//            case 2602:
+//                Toast.makeText(this, "KEYCODE_DPAD_LEFT", Toast.LENGTH_SHORT).show();
+////                GlobalConstants.currentNodeCompat_phoneButton.
+////                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                // Get the focused node
+//                // check the package name or Parent layout name or specific node name or its id as per the requirement:
+//                // to test, packageName: com.example.myapplication;
+//                // TODO: Code refactoring and store hardcoded values into constants
+//                if (validateCurrentMusicNode(currentFocusedNode)
+//                        || validateCurrentAppTray(currentFocusedNode)
+//                        || validateCurrentTEDHOURButton(currentFocusedNode)) {
+//                    GlobalConstants.currentNodeCompat_phoneButton.
+//                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                }
+//                break;
+//            case KeyEvent.KEYCODE_DPAD_UP:
+//            case 2604:
+//                Toast.makeText(this, "KEYCODE_DPAD_UP", Toast.LENGTH_SHORT).show();
+//                // Get the focused node
+//                // check the package name or Parent layout name or specific node name or its id as per the requirement:
+//                // to test, packageName: com.example.myapplication;
+//                // TODO: Code refactoring and store hardcoded values into constants
+//                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
+//                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
+//                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
+//
+//                if (validateCurrentMusicNode(currentFocusedNode)
+//                        || validateCurrentTEDHOURButton(currentFocusedNode)) {
+//                    GlobalConstants.currentNodeCompat_playPauseButton.
+//                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                } else if (validateCurrentAppTray(currentFocusedNode)) {
+//                    GlobalConstants.currentNodeCompat_phoneButton.
+//                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                }
+//                break;
+//            case KeyEvent.KEYCODE_DPAD_DOWN:
+//            case 2605:
+//                Toast.makeText(this, "KEYCODE_DPAD_DOWN", Toast.LENGTH_SHORT).show();
+//                // Get the focused node
+//                // check the package name or Parent layout name or specific node name or its id as per the requirement:
+//                // to test, packageName: com.example.myapplication;
+//                // TODO: Code refactoring and store hardcoded values into constants
+////                Log.i(GlobalConstants.LOGTAG, "Get Parent " + currentFocusedNode.getParent());
+//                if (validateCurrentMusicNode(currentFocusedNode)
+//                        || validateCurrentAppTray(currentFocusedNode)) {
+//                    GlobalConstants.currentNodeCompat_MIN36.
+//                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                }
+//                break;
+//            case KeyEvent.KEYCODE_DPAD_RIGHT:
+//            case 2603:
+////                Toast.makeText(this, "KEYCODE_DPAD_RIGHT", Toast.LENGTH_SHORT).show();
+//
+////                GlobalConstants.currentNodeCompat_previousButton.
+////                        performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//
+//                Log.i(GlobalConstants.LOGTAG, "validateCurrentMusicNode: " + validateCurrentMusicNode(currentFocusedNode)
+//                        + " validateCurrentTEDHOURButton: " + validateCurrentTEDHOURButton(currentFocusedNode)
+//                        + " validateCurrentAppTray: " + validateCurrentAppTray(currentFocusedNode));
+//
+//                // Get the focused node
+//                // check the package name or Parent layout name or specific node name or its id as per the requirement:
+//                // to test, packageName: com.example.myapplication;
+//                // TODO: Code refactoring and store hardcoded values into constants
+//                if (validateCurrentAppTray(currentFocusedNode)
+//                        || validateCurrentMusicNode(currentFocusedNode)) {
+//                    GlobalConstants.currentNodeCompat_previousButton.
+//                            performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                }
+//
+//                break;
+//            case KeyEvent.KEYCODE_DPAD_CENTER:
+//                break;
+//            case KeyEvent.KEYCODE_A:
+//            case KeyEvent.KEYCODE_BUTTON_L2:
+//                Toast.makeText(this, "KEYCODE_A/KEYCODE_BUTTON_L2", Toast.LENGTH_SHORT).show();
+//                // Initialize and trace screen elements.
+//                // TODO: Move this to some constructor in future
+//                new MainTreeBuilder(this).addWindowListToTree(
+//                        SwitchAccessWindowInfo.convertZOrderWindowList(
+//                                AccessibilityServiceCompatUtils.getWindows(this)));
+//                break;
+//            case KeyEvent.KEYCODE_S:
+//            case KeyEvent.KEYCODE_BUTTON_R2:
+//                Toast.makeText(this, "KEYCODE_S/KEYCODE_BUTTON_R2", Toast.LENGTH_SHORT).show();
+////                TO set focus to play pause button forcefully for testing purpose
+//                GlobalConstants.currentNodeCompat_AOSP_PLAY_PAUSE.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                break;
+//            case KeyEvent.KEYCODE_D:
+//            case KeyEvent.KEYCODE_BUTTON_X:
+//                Toast.makeText(this, "KEYCODE_D/KEYCODE_BUTTON_B", Toast.LENGTH_SHORT).show();
+////                To set focus to Overview app tray button forcefully for testing purpose
+//                GlobalConstants.currentNodeCompat_AOSP_MUSIC.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                break;
+//            case KeyEvent.KEYCODE_Q:
+//            case KeyEvent.KEYCODE_BUTTON_B:
+//                Toast.makeText(this, "KEYCODE_Q/KEYCODE_BUTTON_X", Toast.LENGTH_SHORT).show();
+////                To perform a click action on the overview button of the phone app tray navigation icon.
+//                GlobalConstants.currentNodeCompat_AOSP_HOME.performAction(AccessibilityNodeInfoCompat.ACTION_CLICK);
+//                break;
+//            case KeyEvent.KEYCODE_W:
+//                Toast.makeText(this, "KEYCODE_W", Toast.LENGTH_SHORT).show();
+////                To perform a click action on the overview button of the phone app tray
+////                navigation icon using global available options for system ui by default.
+//                performGlobalAction(GLOBAL_ACTION_HOME);
+//                break;
+//            case KeyEvent.KEYCODE_BUTTON_L1:
+//                Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent KEYCODE_BUTTON_L1 pressed...GlobalConstants.CurrentItemIndex " + GlobalConstants.CurrentItemIndex);
+//
+//                if (!GlobalConstants.isFocusOnSystemAppTray) {
+//                    Log.i(GlobalConstants.LOGTAG, "isFocusOnSystemAppTray false");
+//                    return false;
+//                }
+//
+//                switch (GlobalConstants.CurrentItemIndex) {
+//                    case 5:
+//                        GlobalConstants.currentNodeCompat_AOSP_HOME.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+//                        Log.i(GlobalConstants.LOGTAG, "Accessibility onKeyEvent CurrentItemIndex 5");
+//                        break;
+//                }
+//                break;
+//        }
+//
+//        return false;
+//    }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -351,7 +365,20 @@ public class SwitchAccessService extends AccessibilityService {
         }
 
 //        Log.i("Venk", "getPackageName: " + event.getPackageName());
-//        Log.i("Venk", "getViewIdResourceName: " + source.getViewIdResourceName());
+        Log.i("Venk", "onAccessibilityEvent getViewIdResourceName: " + source.getViewIdResourceName());
+        Log.i("Venk", "onAccessibilityEvent getPackageName: " + source.getPackageName());
+        Log.i("Venk", "onAccessibilityEvent getCurrentItemIndex: " + event.getCurrentItemIndex());
+        Log.i("Venk", "onAccessibilityEvent getFromIndex: " + event.getFromIndex());
+        Log.i("Venk", "onAccessibilityEvent getEventType: " + event.getEventType());
+
+        if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED &&
+                source.getPackageName().toString().equals(GlobalConstants.SYSTEM_PACKAGE_NAME) &&
+                source.getViewIdResourceName() != null) {
+            GlobalConstants.CurrentItemIndex = event.getCurrentItemIndex();
+            GlobalConstants.isFocusOnSystemAppTray = true;
+
+            Log.i("Venk", "GlobalConstants.CurrentItemIndex : " + GlobalConstants.CurrentItemIndex);
+        }
 
         if (eventProcessor != null) {
             eventProcessor.onAccessibilityEvent(event);

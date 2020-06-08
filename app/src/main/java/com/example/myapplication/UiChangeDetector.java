@@ -20,6 +20,8 @@ import android.view.accessibility.AccessibilityEvent;
 
 import androidx.annotation.Nullable;
 
+import com.example.myapplication.utils.UiChangeStabilizer;
+
 /**
  * Class to detect possible changes to the UI based on AccessibilityEvents
  */
@@ -36,8 +38,8 @@ public class UiChangeDetector implements AccessibilityEventListener {
 
     private final PossibleUiChangeListener listener;
 
-    public UiChangeDetector(PossibleUiChangeListener listener) {
-        this.listener = listener;
+    public UiChangeDetector() {
+        this.listener = new UiChangeStabilizer();
     }
 
     @Override
