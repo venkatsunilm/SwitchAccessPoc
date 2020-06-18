@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
+
+import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        play_pause_button.requestFocus();
+//        home_button.setFocusedByDefault(false);
 
         New_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +86,25 @@ public class MainActivity extends AppCompatActivity {
                 enableService();
             }
         }, 1000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+//                home_button.clearFocus();
+//                play_pause_button.clearFocus();
+
+//                play_pause_button.performAccessibilityAction(
+//                        AccessibilityNodeInfo.ACTION_CLEAR_FOCUS, null);
+//                home_button.setFocusable(false);
+
+//                play_pause_button.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+//                play_pause_button.performAccessibilityAction(
+//                        AccessibilityNodeInfo.ACTION_DISMISS, null);
+
+                Log.i(GlobalConstants.LOGTAG, "Removing focus ...........");
+            }
+        }, 20000);
+
     }
 
     @Nullable
@@ -107,15 +129,12 @@ public class MainActivity extends AppCompatActivity {
     public static final int TIMEOUT_SERVICE_ENABLE = DEBUG ? Integer.MAX_VALUE : 10000;
 
     public void enableService() {
-        final String serviceName = SERVICE_NAME/*clazz.getSimpleName()*/;
+        final String serviceName = SERVICE_NAME;
 //        final Context context = instrumentation.getContext();
         final String enabledServices = Settings.Secure.getString(
                 getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-
-        Log.i(GlobalConstants.LOGTAG, "enabledServices: " + enabledServices);
         if (enabledServices != null) {
-            Log.i(GlobalConstants.LOGTAG, "Service already enabled .......... **************** ");
             return;
         }
         final List<AccessibilityServiceInfo> serviceInfos =
@@ -126,17 +145,17 @@ public class MainActivity extends AppCompatActivity {
             if (serviceId.endsWith(serviceName)) {
                 Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceName);
                 try {
-                    Settings.Secure.putString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
+                    Settings.Secure.putString(getContentResolver(),
+                            Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
                             enabledServices + COMPONENT_NAME_SEPARATOR + serviceId);
-
-                    Settings.Secure.putString(getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED,
+                    Settings.Secure.putString(getContentResolver(),
+                            Settings.Secure.ACCESSIBILITY_ENABLED,
                             "1");
                 } catch (Exception ex) {
                     Log.i(GlobalConstants.LOGTAG, ex.getStackTrace().toString());
                 }
             }
         }
-        Log.i(GlobalConstants.LOGTAG, "manager.isEnabled(): " + accessibilityManager.isEnabled());
     }
 
 
@@ -148,5 +167,6 @@ public class MainActivity extends AppCompatActivity {
                     "0");
         }
     }
+
 
 }
