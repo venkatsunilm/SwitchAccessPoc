@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         TED_button = (Button) findViewById(R.id.btn_TED);
         NAV_button = (Button) findViewById(R.id.btn_NAV);
         accessibilityManager = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: "+ accessibilityManager);
+
         accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener() {
 
             @Override
@@ -85,25 +87,25 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 enableService();
             }
-        }, 1000);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-//                home_button.clearFocus();
-//                play_pause_button.clearFocus();
-
-//                play_pause_button.performAccessibilityAction(
-//                        AccessibilityNodeInfo.ACTION_CLEAR_FOCUS, null);
-//                home_button.setFocusable(false);
-
-//                play_pause_button.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-//                play_pause_button.performAccessibilityAction(
-//                        AccessibilityNodeInfo.ACTION_DISMISS, null);
-
-                Log.i(GlobalConstants.LOGTAG, "Removing focus ...........");
-            }
-        }, 20000);
+        }, 3000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+////                home_button.clearFocus();
+////                play_pause_button.clearFocus();
+//
+////                play_pause_button.performAccessibilityAction(
+////                        AccessibilityNodeInfo.ACTION_CLEAR_FOCUS, null);
+////                home_button.setFocusable(false);
+//
+////                play_pause_button.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+////                play_pause_button.performAccessibilityAction(
+////                        AccessibilityNodeInfo.ACTION_FOCUS, null);
+//
+//                Log.i(GlobalConstants.LOGTAG, "Removing focus ...........");
+//            }
+//        }, 6000);
 
     }
 
@@ -134,11 +136,15 @@ public class MainActivity extends AppCompatActivity {
         final String enabledServices = Settings.Secure.getString(
                 getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        if (enabledServices != null) {
+        if (!GlobalConstants.IS_HARDWARE && enabledServices != null) {
+            Log.i(GlobalConstants.LOGTAG, "enabledServices not null, already enabled "+ enabledServices);
             return;
         }
         final List<AccessibilityServiceInfo> serviceInfos =
                 accessibilityManager.getInstalledAccessibilityServiceList();
+
+//        Log.i(GlobalConstants.LOGTAG, "serviceInfos: " + serviceInfos);
+
         for (AccessibilityServiceInfo serviceInfo : serviceInfos) {
             final String serviceId = serviceInfo.getId();
             Log.i(GlobalConstants.LOGTAG, "Service id: " + serviceId);
@@ -156,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
     }
 
 
