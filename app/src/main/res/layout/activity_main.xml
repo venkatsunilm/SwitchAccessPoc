@@ -248,7 +248,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/invisibleButton"
+            android:id="@+id/dummyView"
             android:layout_width="1dp"
             android:layout_height="1dp"
             android:layout_marginStart="376dp"
