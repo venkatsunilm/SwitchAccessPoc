@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -18,8 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
-
-import static android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,16 +26,18 @@ public class MainActivity extends AppCompatActivity {
     private Button next_button;
     private Button previous_button;
     private Button now_playing_button;
-    private Button Music_menu_button;
-    private Button Settings_button;
+    private Button music_menu_button;
+    private Button settings_button;
     private Button more_button;
     private Button home_button;
     private Button phone_button;
     private Button overview_button;
     private Button TED_button;
     private Button NAV_button;
-    private Button New_button;
+    private Button new_button;
     private AccessibilityManager accessibilityManager;
+    private Button music_button;
+    private Button back_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +46,33 @@ public class MainActivity extends AppCompatActivity {
 
         play_pause_button = (Button) findViewById(R.id.btn_play_pause);
         next_button = (Button) findViewById(R.id.btn_next);
-        New_button = (Button) findViewById(R.id.button_next_screen);
+        new_button = (Button) findViewById(R.id.button_next_screen);
         previous_button = (Button) findViewById(R.id.btn_previous);
         now_playing_button = (Button) findViewById(R.id.btn_now_playing);
-        Music_menu_button = (Button) findViewById(R.id.btn_music_menu);
-        Settings_button = (Button) findViewById(R.id.btn_Settings);
+        music_menu_button = (Button) findViewById(R.id.btn_music_menu);
+        settings_button = (Button) findViewById(R.id.btn_Settings);
         more_button = (Button) findViewById(R.id.btn_more);
         home_button = (Button) findViewById(R.id.btn_home);
-        Button music_button = (Button) findViewById(R.id.btn_music);
+        music_button = (Button) findViewById(R.id.btn_music);
         phone_button = (Button) findViewById(R.id.btn_phone);
-        Button back_button = (Button) findViewById(R.id.btn_back);
+        back_button = (Button) findViewById(R.id.btn_back);
         overview_button = (Button) findViewById(R.id.btn_overview);
         TED_button = (Button) findViewById(R.id.btn_TED);
         NAV_button = (Button) findViewById(R.id.btn_NAV);
         accessibilityManager = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
-        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: "+ accessibilityManager);
+        Log.i(GlobalConstants.LOGTAG, "accessibilityManager: " + accessibilityManager);
 
         accessibilityManager.addAccessibilityStateChangeListener(new AccessibilityManager.AccessibilityStateChangeListener() {
 
             @Override
             public void onAccessibilityStateChanged(boolean enabled) {
-                Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY addAccessibilityStateChangeListener onAccessibilityStateChanged  222");
+                Log.i(GlobalConstants.LOGTAG, "MAIN ACTIVITY addAccessibilityStateChangeListener ");
             }
         });
 
 //        home_button.setFocusedByDefault(false);
 
-        New_button.setOnClickListener(new View.OnClickListener() {
+        new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SecondActivity.class);
@@ -82,30 +81,47 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        if (!GlobalConstants.IS_ANDROID_PHONE) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    enableService();
+                }
+            }, 3000);
+        }
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                enableService();
+
+//                music_button.clearFocus();
+//                play_pause_button.clearFocus();
+
+//                music_button.performAccessibilityAction(
+//                        AccessibilityNodeInfo.ACTION_CLEAR_FOCUS, null);
+//                home_button.setFocusable(false);
+//                music_button.setFocusable(false);
+//                phone_button.setFocusable(false);
+//                back_button.setFocusable(false);
+//                overview_button.setFocusable(false);
+//                now_playing_button.setFocusable(false);
+//                music_menu_button.setFocusable(false);
+//                new_button.setFocusable(false);
+//                settings_button.setFocusable(false);
+//                previous_button.setFocusable(false);
+//                play_pause_button.setFocusable(false);
+//                next_button.setFocusable(false);
+//                more_button.setFocusable(false);
+//                TED_button.setFocusable(false);
+//                NAV_button.setFocusable(false);
+
+//                home_button.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+//                play_pause_button.performAccessibilityAction(
+//                        AccessibilityNodeInfo.ACTION_FOCUS, null);
+
+                Log.i(GlobalConstants.LOGTAG, "Removing focus ...........");
             }
-        }, 3000);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-////                home_button.clearFocus();
-////                play_pause_button.clearFocus();
-//
-////                play_pause_button.performAccessibilityAction(
-////                        AccessibilityNodeInfo.ACTION_CLEAR_FOCUS, null);
-////                home_button.setFocusable(false);
-//
-////                play_pause_button.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-////                play_pause_button.performAccessibilityAction(
-////                        AccessibilityNodeInfo.ACTION_FOCUS, null);
-//
-//                Log.i(GlobalConstants.LOGTAG, "Removing focus ...........");
-//            }
-//        }, 6000);
+        }, 10000);
 
     }
 
@@ -118,13 +134,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        play_pause_button.requestFocus();
+//        play_pause_button.requestFocus();
     }
 
     @Override
     protected void onResume() {
+        Log.i(GlobalConstants.LOGTAG, "On Resume.........");
         super.onResume();
-        play_pause_button.requestFocus();
+//        play_pause_button.requestFocus();
     }
 
     private static final boolean DEBUG = false;
@@ -137,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 getContentResolver(),
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         if (!GlobalConstants.IS_HARDWARE && enabledServices != null) {
-            Log.i(GlobalConstants.LOGTAG, "enabledServices not null, already enabled "+ enabledServices);
+            Log.i(GlobalConstants.LOGTAG, "enabledServices not null, already enabled " + enabledServices);
             return;
         }
         final List<AccessibilityServiceInfo> serviceInfos =
@@ -175,5 +192,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        Log.i(GlobalConstants.LOGTAG, "On onStart.........");
+
+    }
 }
