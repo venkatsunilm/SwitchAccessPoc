@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.views;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.GlobalConstants;
+import com.example.myapplication.R;
 
 import java.util.List;
 

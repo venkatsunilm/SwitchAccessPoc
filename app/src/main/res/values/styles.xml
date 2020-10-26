@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.MyRipple">
+        <item name="colorControlHighlight">@color/blue</item>
+        <item name="android:background">?selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>
