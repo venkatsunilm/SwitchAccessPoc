@@ -75,6 +75,22 @@ public class MainActivity extends AppCompatActivity {
 
 //        home_button.setFocusedByDefault(false);
 
+        settings_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        more_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MultipleApplicationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         new_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,7 +1,9 @@
 package com.example.myapplication.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
@@ -25,12 +27,28 @@ public class MultipleApplicationsActivity extends AppCompatActivity {
             @Override
             public void onGlobalLayout() {
                 rvHolder.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                rvAdapter =new RvAdapter(getApplicationContext(),1,rvHolder.getMeasuredWidth());
-
+                rvAdapter =new RvAdapter(getApplicationContext(),1,rvHolder.getMeasuredWidth(),itemClickListener);
                 rvHolder.setAdapter(rvAdapter);
 
             }
         });
+        findViewById(R.id.closBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
+    }
+
+    itemClickListener itemClickListener=new itemClickListener() {
+        @Override
+        public void itemClicked() {
+
+        }
+    };
+
+    public interface itemClickListener{
+        void itemClicked();
     }
 }
