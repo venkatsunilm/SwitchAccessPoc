@@ -10,4 +10,12 @@
     <color name="bottom_focus">#000000</color>
     <color name="btn_pressed">#7C4DFF</color>
     <color name="btn_selected">#536DFE</color>
+    <color name="black" >#000000</color>
+    <color name="white" > #FFFFFF</color>
+    <color name="blue">#1261A0</color>
+    <color name="customWhite">#B3FFFFFF</color>
+    <color name="bgcolor" >#D9000000</color>
+    <color name="cardCustomColor" >#B3000000</color>
+
+
 </resources>
