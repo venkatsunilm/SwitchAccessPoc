@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.Commons;
 import com.example.myapplication.R;
+import com.example.myapplication.views.MultipleApplicationsActivity;
 
 public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -21,11 +22,13 @@ public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      private int viewType=0;
      private int viewWidth=0;
      private static final int SIZE=3;
+    MultipleApplicationsActivity.itemClickListener itemClickListener;
 
-     public RvAdapter(Context context,int type,int width){
+     public RvAdapter(Context context, int type, int width, MultipleApplicationsActivity.itemClickListener itemClickListener){
          this.mContext=context;
          viewType=type;
          viewWidth = width;
+         this.itemClickListener=itemClickListener;
      }
 
     public RvAdapter(Context context){
@@ -66,17 +69,28 @@ public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public View preView=null;
+    public View preView2=null;
 
     class ViewHolder2 extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ViewHolder2(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
         }
 
         @Override
-        public void onClick(View v) {
+        public void onClick(View view) {
+            if(preView2 ==null){
+                preView2=view;
+            }else{
+                preView2.setBackgroundResource(R.drawable.solid_bg_without_border);
+                preView2=view;
+            }
+            view.setBackgroundResource(R.drawable.solid_bg);
 
+            if(itemClickListener!=null)
+                itemClickListener.itemClicked();
         }
     }
 
@@ -108,7 +122,7 @@ public class RvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 preView=view;
                 Log.e("was","it null");
             }else{
-                preView.setBackgroundColor((ContextCompat.getColor(mContext,R.color.grey)));
+                preView.setBackgroundColor((ContextCompat.getColor(mContext,R.color.bgcolor)));
                 preView=view;
             }
             view.setBackgroundColor(ContextCompat.getColor(mContext,R.color.black));

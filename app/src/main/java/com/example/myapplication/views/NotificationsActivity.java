@@ -1,6 +1,7 @@
 package com.example.myapplication.views;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.RvAdapter;
 
-public class NotificationsActivity extends AppCompatActivity {
+public class NotificationsActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RvAdapter rvAdapter;
     private RecyclerView recyclerView;
@@ -21,5 +22,12 @@ public class NotificationsActivity extends AppCompatActivity {
 
         rvAdapter=new RvAdapter(this);
         recyclerView.setAdapter(rvAdapter);
+
+        findViewById(R.id.textView5).setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        onBackPressed();
     }
 }
