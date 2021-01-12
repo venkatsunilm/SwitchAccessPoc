@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <Button
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,9 +37,10 @@
             android:letterSpacing="0.04"
             android:text="Notifications"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:background="@drawable/btn_bgs"/>
 
-        <TextView
+        <Button
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_marginStart="15dp"
@@ -48,6 +49,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
             android:layout_height="wrap_content"
-            android:text="Close" />
+            android:text="Close"
+            android:background="@drawable/btn_bgs"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
